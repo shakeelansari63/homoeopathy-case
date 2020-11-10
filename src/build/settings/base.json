@@ -1,0 +1,6 @@
+{
+    "app_name": "Barqat Homoeopathy",
+    "author": "Shakeel Ansari",
+    "main_module": "src/main/python/main.py",
+    "version": "0.0.0"
+}
