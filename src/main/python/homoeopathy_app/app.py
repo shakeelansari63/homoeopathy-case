@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets as qt
 from PyQt5 import QtGui as gui
 from .setting import settings
 from .patients import MyPatients
-from qtmodern import styles as modernstyle, windows as modernwindow
+from qtmodern import styles as modernstyle
 import sys
 
 
@@ -16,8 +16,7 @@ class App(qt.QWidget):
         # Initialize super class which is widget
         super().__init__()
 
-        # Set Stylesheet
-        # self.setStyleSheet(settings["theme"])
+        # Set Modern Style
         modernstyle.dark(self.app)
 
     def run(self):

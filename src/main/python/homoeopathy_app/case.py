@@ -860,13 +860,20 @@ class ViewCase(qt.QDialog):
         else:
             case = self.casedb.get_case_by_patient(patient_id)
 
-        print(case)
+        # print(case)
 
         # Scroll Widget
         scroll_layout = qt.QVBoxLayout()
         scroll_widget = qt.QWidget()
         scroll_win = qt.QScrollArea()
+        scroll_win.setVerticalScrollBarPolicy(core.Qt.ScrollBarAlwaysOn)
+        scroll_win.setHorizontalScrollBarPolicy(core.Qt.ScrollBarAlwaysOff)
+        scroll_win.setWidgetResizable(True)
+
         vbox = qt.QVBoxLayout()
+
+        # Patient Group Box
+        patn_grp = qt.QGroupBox('Patient')
 
         # Create Form Layout
         patnform = qt.QFormLayout()
@@ -934,7 +941,9 @@ class ViewCase(qt.QDialog):
             qt.QLabel(patient[9])
         )
 
-        vbox.addLayout(patnform)
+        patn_grp.setLayout(patnform)
+
+        vbox.addWidget(patn_grp)
 
         # Check if patient has any case
         if case is not None:
