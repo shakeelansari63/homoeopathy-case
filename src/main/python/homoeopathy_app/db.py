@@ -90,6 +90,23 @@ class PatientDB(SQLDB):
         else:
             return 'ALREADY EXIST'
 
+    def updPatient(self, patnid, fname, lname, yob, gender, phone, address, occupation, marstat, refby):
+        sql = """UPDATE PATIENTS
+        SET PATIENT_FIRST_NAME = '{fname}'
+        ,   PATIENT_LAST_NAME = '{lname}'
+        ,   YEAR_OF_BIRTH = '{yob}'
+        ,   GENDER = '{gender}'
+        ,   PHONE = '{phone}'
+        ,   ADDRESS = '{address}'
+        ,   OCCUPATION = '{occupation}'
+        ,   MARITAL_STATUS = '{marstat}'
+        ,   REFERENCED_BY = '{refby}'
+        WHERE PATIENT_ID = {pid}
+        """.format(pid=patnid, fname=fname, lname=lname, yob=yob, gender=gender, phone=phone, address=address,
+                   occupation=occupation, marstat=marstat, refby=refby)
+
+        self.run_sql(sql)
+
     def check_patient(self, fname, lname, yob, gender, phone):
         sql = """SELECT 1 FROM PATIENTS
             WHERE PATIENT_FIRST_NAME = '{fname}'
@@ -222,7 +239,13 @@ class CaseDB(SQLDB):
             , TOTALITY TEXT
             , RUBRICS TEXT
             , PRESCRIPTION TEXT
-            , UPDATE_DATE DATETIME)"""
+            , UPDATE_DATE DATETIME
+            , DESIRE TEXT
+            , TONGUE TEXT
+            , SPEED TEXT
+            , ENERGY TEXT
+            , DD TEXT
+            )"""
 
         self.run_sql(sql)
 
@@ -304,7 +327,12 @@ class CaseDB(SQLDB):
                   accute,
                   fp_ttl,
                   fp_rbr,
-                  fp_prs):
+                  fp_prs,
+                  pg_des,
+                  pg_ton,
+                  pg_spd,
+                  pg_eng,
+                  fp_dds):
         """ Save case to Database """
         new_case_id = self.get_max_caseid() + 1
 
@@ -378,9 +406,19 @@ class CaseDB(SQLDB):
             , RUBRICS
             , PRESCRIPTION
             , UPDATE_DATE
+            , DESIRE
+            , TONGUE
+            , SPEED
+            , ENERGY
+            , DD
         ) VALUES (
              {} ,
              {} ,
+            '{}',
+            '{}',
+            '{}',
+            '{}',
+            '{}',
             '{}',
             '{}',
             '{}',
@@ -517,7 +555,12 @@ class CaseDB(SQLDB):
             fp_ttl,
             fp_rbr,
             fp_prs,
-            datetime.now()
+            datetime.now(),
+            pg_des,
+            pg_ton,
+            pg_spd,
+            pg_eng,
+            fp_dds
         )
 
         self.run_sql(sql)
@@ -592,6 +635,11 @@ class CaseDB(SQLDB):
             , TOTALITY
             , RUBRICS
             , PRESCRIPTION
+            , DESIRE
+            , TONGUE
+            , SPEED
+            , ENERGY
+            , DD
             FROM CASES WHERE PATIENT_ID = {pid}
             AND CASE_ID = ( SELECT MAX(CASE_ID) FROM CASES 
             WHERE PATIENT_ID = {pid})""".format(pid=patient_id)
@@ -671,6 +719,11 @@ class CaseDB(SQLDB):
             , TOTALITY
             , RUBRICS
             , PRESCRIPTION
+            , DESIRE
+            , TONGUE
+            , SPEED
+            , ENERGY
+            , DD
             FROM CASES WHERE CASE_ID = {cid}""".format(cid=case_id)
 
         case = self.run_sql(sql)

@@ -52,6 +52,8 @@ class MyPatients(qt.QWidget):
         # Table widget for showing patients List
         self.my_patients_table = qt.QTableWidget()
         self.my_patients_table.setEditTriggers(qt.QTableWidget.NoEditTriggers)
+        header = self.my_patients_table.horizontalHeader()
+        header.setSectionResizeMode(qt.QHeaderView.ResizeToContents)
 
         # Horizontal Box for Bottom button
         hbox = qt.QHBoxLayout()
@@ -101,11 +103,11 @@ class MyPatients(qt.QWidget):
 
     def make_patient_list(self, patient_list):
         # Table Setup
-        self.my_patients_table.setColumnCount(9)
+        self.my_patients_table.setColumnCount(10)
         self.my_patients_table.setRowCount(
             len(patient_list) if patient_list is not None else 0)
         self.my_patients_table.setHorizontalHeaderLabels(
-            ('Patient Id', 'First Name', 'Last Name', 'Age', 'Gender', 'Phone', 'Address', '', ''))
+            ('Patient Id', 'First Name', 'Last Name', 'Age', 'Gender', 'Phone', 'Address', '', '', ''))
         self.my_patients_table.verticalHeader().setVisible(False)
 
         # Add items to table
@@ -133,6 +135,10 @@ class MyPatients(qt.QWidget):
                     row, 6, qt.QTableWidgetItem(str(address)))
 
                 # Action Buttons
+                edit_patn = qt.QPushButton('Edit Patient Information')
+                edit_patn.adjustSize()
+                edit_patn.clicked.connect(partial(self.edit_patient, str(pid)))
+
                 edit_case = qt.QPushButton('Edit Case')
                 edit_case.clicked.connect(partial(self.edit_case, str(pid)))
 
@@ -141,10 +147,13 @@ class MyPatients(qt.QWidget):
 
                 # Add row to Table
                 self.my_patients_table.setCellWidget(
-                    row, 7, view_case
+                    row, 7, edit_patn
                 )
                 self.my_patients_table.setCellWidget(
-                    row, 8, edit_case
+                    row, 8, view_case
+                )
+                self.my_patients_table.setCellWidget(
+                    row, 9, edit_case
                 )
 
         # Refresh Table
@@ -162,6 +171,10 @@ class MyPatients(qt.QWidget):
         patient_case = ViewCase()
         patient_case.view_case(patient_id)
 
+    def edit_patient(self, patient_id):
+        patn = NewPatient()
+        patn.open(patient_id)
+
 
 class NewPatient(qt.QDialog):
     def __init__(self):
@@ -176,9 +189,12 @@ class NewPatient(qt.QDialog):
         # Set Stylesheet
         self.setStyleSheet(settings["theme"])
 
-    def open(self):
+    def open(self, ptn_id=None):
         # Vertical Layout
         formBox = qt.QFormLayout()
+
+        # Set Patient Id
+        self.existint_patient_id = ptn_id
 
         # Patient Name Fields
         self.fnameLE = qt.QLineEdit()
@@ -252,7 +268,7 @@ class NewPatient(qt.QDialog):
         formBox.addRow(qt.QLabel('Reference:  '), self.refLE)
 
         # Submit Button
-        submit = qt.QPushButton('Submit')
+        submit = qt.QPushButton('Save')
         submit.clicked.connect(self.add_patient)
         right_alignment_row = qt.QHBoxLayout()
         right_alignment_row.addStretch()
@@ -261,6 +277,21 @@ class NewPatient(qt.QDialog):
 
         # Set Widget layout
         self.setLayout(formBox)
+
+        # Set Data in Form for existing patient
+        if self.existint_patient_id:
+            patient = self.sqldb.get_patient_by_id(self.existint_patient_id)
+
+            self.fnameLE.setText(patient[1])
+            self.lnameLE.setText(patient[2])
+
+            age = date.today().year - patient[3]
+            self.ageLE.setText(str(age))
+
+            self.phoneLE.setText(patient[5])
+            self.addrTE.setPlainText(patient[6])
+            self.occLE.setText(patient[7])
+            self.refLE.setText(patient[9])
 
         # Show Window
         self.setModal(True)
@@ -335,8 +366,14 @@ class NewPatient(qt.QDialog):
         reference = self.refLE.text()
 
         if valid == 1:
-            patient_id = self.sqldb.addPatient(fname, lname, year_of_birth, gender, phone,
-                                               address, occupation, marital_status, reference)
+
+            if self.existint_patient_id is None:
+                patient_id = self.sqldb.addPatient(fname, lname, year_of_birth, gender, phone,
+                                                   address, occupation, marital_status, reference)
+            else:
+                patient_id = self.existint_patient_id
+                self.sqldb.updPatient(patient_id, fname, lname, year_of_birth, gender, phone,
+                                      address, occupation, marital_status, reference)
             if patient_id is not None:
                 case = Case()
                 self.close()

@@ -282,6 +282,26 @@ class Case(qt.QDialog):
         self.pg_addiction.setPlaceholderText('Addiction')
         self.pg_addiction.setTabChangesFocus(True)
         pgform.addRow(qt.QLabel('Addiction:  '), self.pg_addiction)
+        # Desire
+        self.pg_desire = qt.QTextEdit()
+        self.pg_desire.setPlaceholderText('Desire')
+        self.pg_desire.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Desire:  '), self.pg_desire)
+        # Tongue
+        self.pg_tongue = qt.QTextEdit()
+        self.pg_tongue.setPlaceholderText('Tongue')
+        self.pg_tongue.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Tongue:  '), self.pg_tongue)
+        # Speed
+        self.pg_speed = qt.QTextEdit()
+        self.pg_speed.setPlaceholderText('Speed')
+        self.pg_speed.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Speed:  '), self.pg_speed)
+        # Energy
+        self.pg_energy = qt.QTextEdit()
+        self.pg_energy.setPlaceholderText('Energy')
+        self.pg_energy.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Energy:  '), self.pg_energy)
         # Sensitivity
         snsrow = qt.QHBoxLayout()
         # Smell
@@ -463,6 +483,11 @@ class Case(qt.QDialog):
         self.fp_prescription.setTabChangesFocus(True)
         fpform.addRow(qt.QLabel('Prescription + Potency:  '),
                       self.fp_prescription)
+        # D/D
+        self.fp_dd = qt.QTextEdit()
+        self.fp_dd.setPlaceholderText('D/D')
+        self.fp_dd.setTabChangesFocus(True)
+        fpform.addRow(qt.QLabel('D/D:  '), self.fp_dd)
         # Add form to Group
         final_prescription_grp.setLayout(fpform)
         # Add Group to Vbox
@@ -546,7 +571,7 @@ class Case(qt.QDialog):
             self.md_weeping.setPlainText(patient_case[51])
             self.md_illness.setPlainText(patient_case[52])
             self.md_achievements.setPlainText(patient_case[53])
-            self.md_holidays.setPlainText(patient_case[55])
+            self.md_holidays.setPlainText(patient_case[54])
             self.ch_teething.setPlainText(patient_case[55])
             self.ch_crawling.setPlainText(patient_case[56])
             self.ch_walking.setPlainText(patient_case[57])
@@ -558,6 +583,11 @@ class Case(qt.QDialog):
             self.fp_totality.setPlainText(patient_case[63])
             self.fp_rubrics.setPlainText(patient_case[64])
             self.fp_prescription.setPlainText(patient_case[65])
+            self.pg_desire.setPlainText(patient_case[66])
+            self.pg_tongue.setPlainText(patient_case[67])
+            self.pg_speed.setPlainText(patient_case[68])
+            self.pg_energy.setPlainText(patient_case[69])
+            self.fp_dd.setPlainText(patient_case[70])
 
             # Create associated complaints
             if patient_case[6] != '' or patient_case[7] != '' or patient_case[8] != '' \
@@ -760,6 +790,11 @@ class Case(qt.QDialog):
             fp_ttl = self.fp_totality.toPlainText().replace("'", "''")
             fp_rbr = self.fp_rubrics.toPlainText().replace("'", "''")
             fp_prs = self.fp_prescription.toPlainText().replace("'", "''")
+            pg_des = self.pg_desire.toPlainText().replace("'", "''")
+            pg_ton = self.pg_tongue.toPlainText().replace("'", "''")
+            pg_spd = self.pg_speed.toPlainText().replace("'", "''")
+            pg_eng = self.pg_energy.toPlainText().replace("'", "''")
+            fp_dds = self.fp_dd.toPlainText().replace("'", "''")
 
             # Save Case
             case_id = self.casedb.save_case(self.pid,
@@ -828,7 +863,12 @@ class Case(qt.QDialog):
                                             accute,
                                             fp_ttl,
                                             fp_rbr,
-                                            fp_prs)
+                                            fp_prs,
+                                            pg_des,
+                                            pg_ton,
+                                            pg_spd,
+                                            pg_eng,
+                                            fp_dds)
 
             case = self.casedb.get_case_by_id(case_id)
 
