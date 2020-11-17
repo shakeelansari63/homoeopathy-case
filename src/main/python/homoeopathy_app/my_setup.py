@@ -14,6 +14,9 @@ class Setup(qt.QDialog):
         self.patndb = PatientDB()
         self.casedb = CaseDB()
 
+        # Set Stylesheet
+        self.setStyleSheet(settings["theme"])
+
     def open(self):
         vbox = qt.QVBoxLayout()
 
@@ -34,6 +37,8 @@ class Setup(qt.QDialog):
 
         self.setWindowTitle('Setup')
         self.setModal(True)
+        self.setFont(settings["font"])
+        self.setWindowIcon(settings["icon"])
         self.exec()
 
     def del_patn(self):

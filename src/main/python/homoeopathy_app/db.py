@@ -158,21 +158,23 @@ class CaseDB(SQLDB):
             , PATIENT_ID BIGINT NOT NULL
             , CC_LOCATION TEXT
             , CC_SENSATION TEXT
+            , CC_AGGRAVATION TEXT
             , CC_AMELIORATION TEXT
-            , CC_AGGREVATION TEXT
             , CC_CONCOMETENT TEXT
+            , CC_ALLOPATHY_MED TEXT
             , AC_LOCATIONS TEXT
             , AC_SENSATIONS TEXT
+            , AC_AGGRAVATION TEXT
             , AC_AMELIORATIONS TEXT
-            , AC_AGGREVATIONS TEXT
             , AC_CONCOMETENTS TEXT
+            , AC_ALLOPATHY_MED TEXT
             , PAST_HISTORY TEXT
             , MENSTRUAL_HISTORY TEXT
             , LEUCORRHOEA TEXT
             , GYNAEC_HISTORY TEXT
             , APPETITE TEXT
             , THERMAL TEXT
-            , THURST TEXT
+            , THIRST TEXT
             , AVERSION TEXT
             , DISAGREE TEXT
             , UNDIGESTABLE TEXT
@@ -220,7 +222,6 @@ class CaseDB(SQLDB):
             , TOTALITY TEXT
             , RUBRICS TEXT
             , PRESCRIPTION TEXT
-            , POTENCY TEXT
             , UPDATE_DATE DATETIME)"""
 
         self.run_sql(sql)
@@ -243,18 +244,20 @@ class CaseDB(SQLDB):
                   cc_ame,
                   cc_agg,
                   cc_con,
+                  cc_alp,
                   ac_loc,
                   ac_sen,
                   ac_ame,
                   ac_agg,
                   ac_con,
+                  ac_alp,
                   pahist,
                   mehist,
                   leucor,
                   gynaec,
                   pg_app,
                   pg_the,
-                  pg_thu,
+                  pg_thi,
                   pg_ave,
                   pg_dis,
                   pg_und,
@@ -301,8 +304,7 @@ class CaseDB(SQLDB):
                   accute,
                   fp_ttl,
                   fp_rbr,
-                  fp_prs,
-                  fp_pot):
+                  fp_prs):
         """ Save case to Database """
         new_case_id = self.get_max_caseid() + 1
 
@@ -311,21 +313,23 @@ class CaseDB(SQLDB):
             , PATIENT_ID
             , CC_LOCATION
             , CC_SENSATION
+            , CC_AGGRAVATION
             , CC_AMELIORATION
-            , CC_AGGREVATION
             , CC_CONCOMETENT
+            , CC_ALLOPATHY_MED
             , AC_LOCATIONS
             , AC_SENSATIONS
+            , AC_AGGRAVATION
             , AC_AMELIORATIONS
-            , AC_AGGREVATIONS
             , AC_CONCOMETENTS
+            , AC_ALLOPATHY_MED
             , PAST_HISTORY
             , MENSTRUAL_HISTORY
             , LEUCORRHOEA
             , GYNAEC_HISTORY
             , APPETITE
             , THERMAL
-            , THURST
+            , THIRST
             , AVERSION
             , DISAGREE
             , UNDIGESTABLE
@@ -373,11 +377,11 @@ class CaseDB(SQLDB):
             , TOTALITY
             , RUBRICS
             , PRESCRIPTION
-            , POTENCY
             , UPDATE_DATE
         ) VALUES (
              {} ,
              {} ,
+            '{}',
             '{}',
             '{}',
             '{}',
@@ -449,21 +453,23 @@ class CaseDB(SQLDB):
             pid,
             cc_loc,
             cc_sen,
-            cc_ame,
             cc_agg,
+            cc_ame,
             cc_con,
+            cc_alp,
             ac_loc,
             ac_sen,
-            ac_ame,
             ac_agg,
+            ac_ame,
             ac_con,
+            ac_alp,
             pahist,
             mehist,
             leucor,
             gynaec,
             pg_app,
             pg_the,
-            pg_thu,
+            pg_thi,
             pg_ave,
             pg_dis,
             pg_und,
@@ -511,7 +517,6 @@ class CaseDB(SQLDB):
             fp_ttl,
             fp_rbr,
             fp_prs,
-            fp_pot,
             datetime.now()
         )
 
@@ -523,21 +528,23 @@ class CaseDB(SQLDB):
         sql = """SELECT 
               CC_LOCATION
             , CC_SENSATION
+            , CC_AGGRAVATION
             , CC_AMELIORATION
-            , CC_AGGREVATION
             , CC_CONCOMETENT
+            , CC_ALLOPATHY_MED
             , AC_LOCATIONS
             , AC_SENSATIONS
+            , AC_AGGRAVATION
             , AC_AMELIORATIONS
-            , AC_AGGREVATIONS
             , AC_CONCOMETENTS
+            , AC_ALLOPATHY_MED
             , PAST_HISTORY
             , MENSTRUAL_HISTORY
             , LEUCORRHOEA
             , GYNAEC_HISTORY
             , APPETITE
             , THERMAL
-            , THURST
+            , THIRST
             , AVERSION
             , DISAGREE
             , UNDIGESTABLE
@@ -585,7 +592,6 @@ class CaseDB(SQLDB):
             , TOTALITY
             , RUBRICS
             , PRESCRIPTION
-            , POTENCY
             FROM CASES WHERE PATIENT_ID = {pid}
             AND CASE_ID = ( SELECT MAX(CASE_ID) FROM CASES 
             WHERE PATIENT_ID = {pid})""".format(pid=patient_id)
@@ -601,21 +607,23 @@ class CaseDB(SQLDB):
         sql = """SELECT 
               CC_LOCATION
             , CC_SENSATION
+            , CC_AGGRAVATION
             , CC_AMELIORATION
-            , CC_AGGREVATION
             , CC_CONCOMETENT
+            , CC_ALLOPATHY_MED
             , AC_LOCATIONS
             , AC_SENSATIONS
+            , AC_AGGRAVATION
             , AC_AMELIORATIONS
-            , AC_AGGREVATIONS
             , AC_CONCOMETENTS
+            , AC_ALLOPATHY_MED
             , PAST_HISTORY
             , MENSTRUAL_HISTORY
             , LEUCORRHOEA
             , GYNAEC_HISTORY
             , APPETITE
             , THERMAL
-            , THURST
+            , THIRST
             , AVERSION
             , DISAGREE
             , UNDIGESTABLE
@@ -663,7 +671,6 @@ class CaseDB(SQLDB):
             , TOTALITY
             , RUBRICS
             , PRESCRIPTION
-            , POTENCY
             FROM CASES WHERE CASE_ID = {cid}""".format(cid=case_id)
 
         case = self.run_sql(sql)

@@ -2,5 +2,7 @@
     "sqlite_db_file": "homoeopathy_db.db",
     "owner": "Barqat Homoeopathy",
     "icon": "img/logo.svg",
-    "delete_icon": "img/delete.png"
+    "delete_icon": "img/delete.png",
+    "fontfile": "resources/NotoSans-regular.ttf",
+    "themefile": "resources/theme.qss"
 }

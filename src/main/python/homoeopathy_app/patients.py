@@ -17,6 +17,9 @@ class MyPatients(qt.QWidget):
         # Initialize DB
         self.sqldb = PatientDB()
 
+        # Set Stylesheet
+        self.setStyleSheet(settings["theme"])
+
         # Make UI for MY Patients
         self.BuildUI()
 
@@ -76,6 +79,9 @@ class MyPatients(qt.QWidget):
 
         # Generate Patients List for first time
         self.getMypatients()
+
+        # Set font
+        self.setWindowIcon(settings["icon"])
 
     def openNewPatient(self):
         new_patient = NewPatient()
@@ -167,6 +173,9 @@ class NewPatient(qt.QDialog):
         self.setWindowTitle('New Patient')
         self.set_validations()
 
+        # Set Stylesheet
+        self.setStyleSheet(settings["theme"])
+
     def open(self):
         # Vertical Layout
         formBox = qt.QFormLayout()
@@ -213,6 +222,7 @@ class NewPatient(qt.QDialog):
         # Patient Address Field
         self.addrTE = qt.QTextEdit()
         self.addrTE.setPlaceholderText('Patient Full Address')
+        self.addrTE.setTabChangesFocus(True)
         formBox.addRow(qt.QLabel('Address:  '), self.addrTE)
 
         # Patient Occupation
@@ -254,6 +264,7 @@ class NewPatient(qt.QDialog):
 
         # Show Window
         self.setModal(True)
+        self.setWindowIcon(settings["icon"])
         self.exec()
 
     def set_validations(self):
@@ -289,8 +300,9 @@ class NewPatient(qt.QDialog):
         # Validate Age
         if age == '' and valid == 1:
             MsgErrBox('Invalid Age')
+            valid = 0
         # Calculate Year of birth
-        else:
+        elif age != '':
             this_year = date.today().year
             year_of_birth = this_year - int(age)
 
@@ -306,7 +318,7 @@ class NewPatient(qt.QDialog):
         phone = self.phoneLE.text()
 
         # Get Address
-        address = self.addrTE.toPlainText()
+        address = self.addrTE.toPlainText().replace("'", "''")
 
         # Get Occupation
         occupation = self.occLE.text()

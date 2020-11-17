@@ -4,6 +4,7 @@ from PyQt5 import QtCore as core
 from .db import PatientDB, CaseDB
 from .alert import MsgErrBox, MsgSucBox
 from .setting import settings
+from .separator import QHSeperationLine
 from datetime import date
 from functools import partial
 
@@ -17,6 +18,9 @@ class Case(qt.QDialog):
         # Db Connection
         self.sqldb = PatientDB()
         self.casedb = CaseDB()
+
+        # Set Stylesheet
+        self.setStyleSheet(settings["theme"])
 
     def create_case(self, patient_id=None):
         self.pid = patient_id
@@ -40,6 +44,7 @@ class Case(qt.QDialog):
 
         # Group of Chief Complaint
         chief_complaint_grp = qt.QGroupBox('Chief Complaint')
+        ccgrp = qt.QVBoxLayout()
         ccform = qt.QHBoxLayout()
         # Complaint Location
         self.cc_location = qt.QTextEdit()
@@ -63,13 +68,13 @@ class Case(qt.QDialog):
         self.cc_amelioration = qt.QTextEdit()
         self.cc_amelioration.setPlaceholderText('Amelioration')
         self.cc_amelioration.setTabChangesFocus(True)
-        self.cc_aggrevation = qt.QTextEdit()
-        self.cc_aggrevation.setPlaceholderText('Aggrevation')
-        self.cc_aggrevation.setTabChangesFocus(True)
+        self.cc_aggravation = qt.QTextEdit()
+        self.cc_aggravation.setPlaceholderText('Aggravation')
+        self.cc_aggravation.setTabChangesFocus(True)
         cc_mod_col = qt.QVBoxLayout()
         cc_mod_col.addWidget(qt.QLabel('Modality'))
+        cc_mod_col.addWidget(self.cc_aggravation)
         cc_mod_col.addWidget(self.cc_amelioration)
-        cc_mod_col.addWidget(self.cc_aggrevation)
         cc_mod_col.setAlignment(core.Qt.AlignTop)
         ccform.addLayout(cc_mod_col)
         # Concometent
@@ -82,7 +87,19 @@ class Case(qt.QDialog):
         cc_conc_col.setAlignment(core.Qt.AlignTop)
         ccform.addLayout(cc_conc_col)
         # Add form to Group
-        chief_complaint_grp.setLayout(ccform)
+        ccgrp.addLayout(ccform)
+        # Add Allopathy Medicine
+        cc_allop_row = qt.QFormLayout()
+        self.cc_allopathymed = qt.QTextEdit()
+        self.cc_allopathymed.setPlaceholderText('Allopathy Medicine')
+        self.cc_allopathymed.setTabChangesFocus(True)
+        cc_allop_row.addRow(
+            qt.QLabel('Allopathy Medicine:  '),
+            self.cc_allopathymed
+        )
+        ccgrp.addLayout(cc_allop_row)
+        # Set group
+        chief_complaint_grp.setLayout(ccgrp)
         # Add Group to Vbox
         self.vbox.addWidget(chief_complaint_grp)
 
@@ -194,11 +211,11 @@ class Case(qt.QDialog):
         self.pg_thermal.setPlaceholderText('Thermals')
         self.pg_thermal.setTabChangesFocus(True)
         pgform.addRow(qt.QLabel('Thermals:  '), self.pg_thermal)
-        # Thurst
-        self.pg_thurst = qt.QTextEdit()
-        self.pg_thurst.setPlaceholderText('Thurst')
-        self.pg_thurst.setTabChangesFocus(True)
-        pgform.addRow(qt.QLabel('Thurst:  '), self.pg_thurst)
+        # Thirst
+        self.pg_thirst = qt.QTextEdit()
+        self.pg_thirst.setPlaceholderText('Thirst')
+        self.pg_thirst.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Thirst:  '), self.pg_thirst)
         # Aversion
         self.pg_aversion = qt.QTextEdit()
         self.pg_aversion.setPlaceholderText('Aversion')
@@ -441,16 +458,11 @@ class Case(qt.QDialog):
         self.fp_rubrics.setTabChangesFocus(True)
         fpform.addRow(qt.QLabel('Rubrics:  '), self.fp_rubrics)
         # Prescription + Potency
-        pp_row = qt.QHBoxLayout()
         self.fp_prescription = qt.QTextEdit()
-        self.fp_prescription.setPlaceholderText('Prescription')
+        self.fp_prescription.setPlaceholderText('Prescription + Potency')
         self.fp_prescription.setTabChangesFocus(True)
-        pp_row.addWidget(self.fp_prescription)
-        self.fp_potency = qt.QTextEdit()
-        self.fp_potency.setPlaceholderText('Potency')
-        self.fp_potency.setTabChangesFocus(True)
-        pp_row.addWidget(self.fp_potency)
-        fpform.addRow(qt.QLabel('Prescription + Potency:  '), pp_row)
+        fpform.addRow(qt.QLabel('Prescription + Potency:  '),
+                      self.fp_prescription)
         # Add form to Group
         final_prescription_grp.setLayout(fpform)
         # Add Group to Vbox
@@ -478,6 +490,8 @@ class Case(qt.QDialog):
         # Display Window
         self.setWindowTitle('Case - {} {}'.format(fname, lname))
         self.setModal(True)
+        self.showMaximized()
+        self.setWindowIcon(settings["icon"])
         self.exec()
 
     def populate_case(self):
@@ -486,75 +500,78 @@ class Case(qt.QDialog):
         if patient_case:
             self.cc_location.setPlainText(patient_case[0])
             self.cc_sensation.setPlainText(patient_case[1])
-            self.cc_amelioration.setPlainText(patient_case[2])
-            self.cc_aggrevation.setPlainText(patient_case[3])
+            self.cc_aggravation.setPlainText(patient_case[2])
+            self.cc_amelioration.setPlainText(patient_case[3])
             self.cc_concometent.setPlainText(patient_case[4])
-            self.past_hist.setPlainText(patient_case[10])
-            self.mens_hist.setPlainText(patient_case[11])
-            self.leucorrhoea.setPlainText(patient_case[12])
-            self.gynaec_hist.setPlainText(patient_case[13])
-            self.pg_appetite.setPlainText(patient_case[14])
-            self.pg_thermal.setPlainText(patient_case[15])
-            self.pg_thurst.setPlainText(patient_case[16])
-            self.pg_aversion.setPlainText(patient_case[17])
-            self.pg_disagree.setPlainText(patient_case[18])
-            self.pg_undigestable.setPlainText(patient_case[19])
-            self.pg_hunger.setPlainText(patient_case[20])
-            self.pg_stool.setPlainText(patient_case[21])
-            self.pg_urine.setPlainText(patient_case[22])
-            self.pg_sweat.setPlainText(patient_case[23])
-            self.pg_sleep.setPlainText(patient_case[24])
-            self.pg_dreams.setPlainText(patient_case[25])
-            self.pg_skin.setPlainText(patient_case[26])
-            self.pg_nails.setPlainText(patient_case[27])
-            self.pg_hobbies.setPlainText(patient_case[28])
-            self.pg_addiction.setPlainText(patient_case[29])
-            self.pg_smell.setPlainText(patient_case[30])
-            self.pg_taste.setPlainText(patient_case[31])
-            self.pg_touch.setPlainText(patient_case[32])
-            self.pg_vision.setPlainText(patient_case[33])
-            self.pg_hearing.setPlainText(patient_case[34])
-            self.fam_hist.setPlainText(patient_case[35])
-            self.md_childhood.setPlainText(patient_case[36])
-            self.md_education.setPlainText(patient_case[37])
-            self.md_marriage.setPlainText(patient_case[38])
-            self.md_children.setPlainText(patient_case[39])
-            self.md_expenses.setPlainText(patient_case[40])
-            self.md_religious.setPlainText(patient_case[41])
-            self.md_cleanliness.setPlainText(patient_case[42])
-            self.md_sympathy.setPlainText(patient_case[43])
-            self.md_anger.setPlainText(patient_case[44])
-            self.md_destruction.setPlainText(patient_case[45])
-            self.md_sexualhist.setPlainText(patient_case[46])
-            self.md_futureplans.setPlainText(patient_case[47])
-            self.md_business.setPlainText(patient_case[48])
-            self.md_weeping.setPlainText(patient_case[49])
-            self.md_illness.setPlainText(patient_case[50])
-            self.md_achievements.setPlainText(patient_case[51])
-            self.md_holidays.setPlainText(patient_case[52])
-            self.ch_teething.setPlainText(patient_case[53])
-            self.ch_crawling.setPlainText(patient_case[54])
-            self.ch_walking.setPlainText(patient_case[55])
-            self.ch_speaking.setPlainText(patient_case[56])
-            self.ch_vaccine.setPlainText(patient_case[57])
-            self.ch_headcrown.setPlainText(patient_case[58])
-            self.cur_med.setPlainText(patient_case[59])
-            self.accute.setPlainText(patient_case[60])
-            self.fp_totality.setPlainText(patient_case[61])
-            self.fp_rubrics.setPlainText(patient_case[62])
-            self.fp_prescription.setPlainText(patient_case[63])
-            self.fp_potency.setPlainText(patient_case[64])
+            self.cc_allopathymed.setPlainText(patient_case[5])
+            self.past_hist.setPlainText(patient_case[12])
+            self.mens_hist.setPlainText(patient_case[13])
+            self.leucorrhoea.setPlainText(patient_case[14])
+            self.gynaec_hist.setPlainText(patient_case[15])
+            self.pg_appetite.setPlainText(patient_case[16])
+            self.pg_thermal.setPlainText(patient_case[17])
+            self.pg_thirst.setPlainText(patient_case[18])
+            self.pg_aversion.setPlainText(patient_case[19])
+            self.pg_disagree.setPlainText(patient_case[20])
+            self.pg_undigestable.setPlainText(patient_case[21])
+            self.pg_hunger.setPlainText(patient_case[22])
+            self.pg_stool.setPlainText(patient_case[23])
+            self.pg_urine.setPlainText(patient_case[24])
+            self.pg_sweat.setPlainText(patient_case[25])
+            self.pg_sleep.setPlainText(patient_case[26])
+            self.pg_dreams.setPlainText(patient_case[27])
+            self.pg_skin.setPlainText(patient_case[28])
+            self.pg_nails.setPlainText(patient_case[29])
+            self.pg_hobbies.setPlainText(patient_case[30])
+            self.pg_addiction.setPlainText(patient_case[31])
+            self.pg_smell.setPlainText(patient_case[32])
+            self.pg_taste.setPlainText(patient_case[33])
+            self.pg_touch.setPlainText(patient_case[34])
+            self.pg_vision.setPlainText(patient_case[35])
+            self.pg_hearing.setPlainText(patient_case[36])
+            self.fam_hist.setPlainText(patient_case[37])
+            self.md_childhood.setPlainText(patient_case[38])
+            self.md_education.setPlainText(patient_case[39])
+            self.md_marriage.setPlainText(patient_case[40])
+            self.md_children.setPlainText(patient_case[41])
+            self.md_expenses.setPlainText(patient_case[42])
+            self.md_religious.setPlainText(patient_case[43])
+            self.md_cleanliness.setPlainText(patient_case[44])
+            self.md_sympathy.setPlainText(patient_case[45])
+            self.md_anger.setPlainText(patient_case[46])
+            self.md_destruction.setPlainText(patient_case[47])
+            self.md_sexualhist.setPlainText(patient_case[48])
+            self.md_futureplans.setPlainText(patient_case[49])
+            self.md_business.setPlainText(patient_case[50])
+            self.md_weeping.setPlainText(patient_case[51])
+            self.md_illness.setPlainText(patient_case[52])
+            self.md_achievements.setPlainText(patient_case[53])
+            self.md_holidays.setPlainText(patient_case[55])
+            self.ch_teething.setPlainText(patient_case[55])
+            self.ch_crawling.setPlainText(patient_case[56])
+            self.ch_walking.setPlainText(patient_case[57])
+            self.ch_speaking.setPlainText(patient_case[58])
+            self.ch_vaccine.setPlainText(patient_case[59])
+            self.ch_headcrown.setPlainText(patient_case[60])
+            self.cur_med.setPlainText(patient_case[61])
+            self.accute.setPlainText(patient_case[62])
+            self.fp_totality.setPlainText(patient_case[63])
+            self.fp_rubrics.setPlainText(patient_case[64])
+            self.fp_prescription.setPlainText(patient_case[65])
 
             # Create associated complaints
-            ac_loc = patient_case[5].split('|')
-            ac_sen = patient_case[6].split('|')
-            ac_ame = patient_case[7].split('|')
-            ac_agg = patient_case[8].split('|')
-            ac_con = patient_case[9].split('|')
-            for asso_compl in zip(ac_loc, ac_sen, ac_ame, ac_agg, ac_con):
-                self.add_associated_complaint(*asso_compl)
+            if patient_case[6] != '' or patient_case[7] != '' or patient_case[8] != '' \
+                    or patient_case[9] != '' or patient_case[10] != '' or patient_case[11] != '':
+                ac_loc = patient_case[6].split('|')
+                ac_sen = patient_case[7].split('|')
+                ac_agg = patient_case[8].split('|')
+                ac_ame = patient_case[9].split('|')
+                ac_con = patient_case[10].split('|')
+                ac_alp = patient_case[11].split('|')
+                for asso_compl in zip(ac_loc, ac_sen, ac_ame, ac_agg, ac_con, ac_alp):
+                    self.add_associated_complaint(*asso_compl)
 
-    def add_associated_complaint(self, ac_loc=None, ac_sen=None, ac_ame=None, ac_agg=None, ac_con=None):
+    def add_associated_complaint(self, ac_loc=None, ac_sen=None, ac_ame=None, ac_agg=None, ac_con=None, ac_alp=None):
         ac_id = len(self.associated_complaint_list.keys())
 
         asso_complaint_grp = qt.QGroupBox()
@@ -600,15 +617,15 @@ class Case(qt.QDialog):
         ac_amelioration.setTabChangesFocus(True)
         if ac_ame:
             ac_amelioration.setPlainText(ac_ame)
-        ac_aggrevation = qt.QTextEdit()
-        ac_aggrevation.setPlaceholderText('Aggrevation')
-        ac_aggrevation.setTabChangesFocus(True)
+        ac_aggravation = qt.QTextEdit()
+        ac_aggravation.setPlaceholderText('Aggravation')
+        ac_aggravation.setTabChangesFocus(True)
         if ac_agg:
-            ac_aggrevation.setPlainText(ac_agg)
+            ac_aggravation.setPlainText(ac_agg)
         ac_mod_col = qt.QVBoxLayout()
         ac_mod_col.addWidget(qt.QLabel('Modality'))
+        ac_mod_col.addWidget(ac_aggravation)
         ac_mod_col.addWidget(ac_amelioration)
-        ac_mod_col.addWidget(ac_aggrevation)
         ac_mod_col.setAlignment(core.Qt.AlignTop)
         acform.addLayout(ac_mod_col)
         # Concometent
@@ -624,11 +641,23 @@ class Case(qt.QDialog):
         acform.addLayout(ac_conc_col)
         # Add Horizontal form to vertical 1st row
         assoc_vbox.addLayout(acform)
+        # Allopathy Medicine
+        ac_allop_form = qt.QFormLayout()
+        ac_allopathymed = qt.QTextEdit()
+        ac_allopathymed.setPlaceholderText('Allopathy Medicine')
+        ac_allopathymed.setTabChangesFocus(True)
+        if ac_alp:
+            ac_allopathymed.setPlainText(ac_alp)
+        ac_allop_form.addRow(
+            qt.QLabel('Allopathy Medicine:  '),
+            ac_allopathymed
+        )
+        assoc_vbox.addLayout(ac_allop_form)
         # Add form to Group
         asso_complaint_grp.setLayout(assoc_vbox)
         # Add Buttons to List
         self.associated_complaint_list[ac_id] = (
-            ac_location, ac_sensation, ac_amelioration, ac_aggrevation, ac_concometent)
+            ac_location, ac_sensation, ac_amelioration, ac_aggravation, ac_concometent, ac_allopathymed)
         self.associated_complaint_widgets[ac_id] = asso_complaint_grp
 
         # Add to Vox
@@ -655,8 +684,9 @@ class Case(qt.QDialog):
             cc_loc = self.cc_location.toPlainText().replace("'", "''")
             cc_sen = self.cc_sensation.toPlainText().replace("'", "''")
             cc_ame = self.cc_amelioration.toPlainText().replace("'", "''")
-            cc_agg = self.cc_aggrevation.toPlainText().replace("'", "''")
+            cc_agg = self.cc_aggravation.toPlainText().replace("'", "''")
             cc_con = self.cc_concometent.toPlainText().replace("'", "''")
+            cc_alp = self.cc_allopathymed.toPlainText().replace("'", "''")
             aclitm = self.associated_complaint_list.items()
             # Location in 0th position of value
             ac_loc = "|".join([acl[1][0].toPlainText()
@@ -667,11 +697,14 @@ class Case(qt.QDialog):
             # Amelioration in 2nd position of value
             ac_ame = "|".join([acl[1][2].toPlainText()
                                for acl in aclitm]).replace("'", "''")
-            # Aggrevation in 3rd position of value
+            # Aggravation in 3rd position of value
             ac_agg = "|".join([acl[1][3].toPlainText()
                                for acl in aclitm]).replace("'", "''")
             # Concometent in 4th position of value
             ac_con = "|".join([acl[1][4].toPlainText()
+                               for acl in aclitm]).replace("'", "''")
+            # Allopathy Medicine in 5th position of value
+            ac_alp = "|".join([acl[1][5].toPlainText()
                                for acl in aclitm]).replace("'", "''")
             pahist = self.past_hist.toPlainText().replace("'", "''")
             mehist = self.mens_hist.toPlainText().replace("'", "''")
@@ -679,7 +712,7 @@ class Case(qt.QDialog):
             gynaec = self.gynaec_hist.toPlainText().replace("'", "''")
             pg_app = self.pg_appetite.toPlainText().replace("'", "''")
             pg_the = self.pg_thermal.toPlainText().replace("'", "''")
-            pg_thu = self.pg_thurst.toPlainText().replace("'", "''")
+            pg_thi = self.pg_thirst.toPlainText().replace("'", "''")
             pg_ave = self.pg_aversion.toPlainText().replace("'", "''")
             pg_dis = self.pg_disagree.toPlainText().replace("'", "''")
             pg_und = self.pg_undigestable.toPlainText().replace("'", "''")
@@ -727,7 +760,6 @@ class Case(qt.QDialog):
             fp_ttl = self.fp_totality.toPlainText().replace("'", "''")
             fp_rbr = self.fp_rubrics.toPlainText().replace("'", "''")
             fp_prs = self.fp_prescription.toPlainText().replace("'", "''")
-            fp_pot = self.fp_potency.toPlainText().replace("'", "''")
 
             # Save Case
             case_id = self.casedb.save_case(self.pid,
@@ -736,18 +768,20 @@ class Case(qt.QDialog):
                                             cc_ame,
                                             cc_agg,
                                             cc_con,
+                                            cc_alp,
                                             ac_loc,
                                             ac_sen,
                                             ac_ame,
                                             ac_agg,
                                             ac_con,
+                                            ac_alp,
                                             pahist,
                                             mehist,
                                             leucor,
                                             gynaec,
                                             pg_app,
                                             pg_the,
-                                            pg_thu,
+                                            pg_thi,
                                             pg_ave,
                                             pg_dis,
                                             pg_und,
@@ -794,13 +828,12 @@ class Case(qt.QDialog):
                                             accute,
                                             fp_ttl,
                                             fp_rbr,
-                                            fp_prs,
-                                            fp_pot)
+                                            fp_prs)
 
             case = self.casedb.get_case_by_id(case_id)
 
-            print(case_id)
-            print(case)
+            # print(case_id)
+            # print(case)
 
             if case:
                 self.close()
@@ -817,12 +850,17 @@ class ViewCase(qt.QDialog):
         self.patndb = PatientDB()
         self.casedb = CaseDB()
 
+        # Set Stylesheet
+        self.setStyleSheet(settings["theme"])
+
     def view_case(self, patient_id, case_id=None):
         patient = self.patndb.get_patient_by_id(patient_id)
         if case_id:
             case = self.casedb.get_case_by_id(case_id)
         else:
             case = self.casedb.get_case_by_patient(patient_id)
+
+        print(case)
 
         # Scroll Widget
         scroll_layout = qt.QVBoxLayout()
@@ -898,92 +936,172 @@ class ViewCase(qt.QDialog):
 
         vbox.addLayout(patnform)
 
-        # Case Information
-        # Chief Complaint
-        cc_group = qt.QGroupBox('Chief Complaint')
-        cc_row = qt.QHBoxLayout()
-        cc_loc_group = qt.QGroupBox('Location')
-        cc_loc_vbox = qt.QVBoxLayout()
-        cc_loc_vbox.addWidget(qt.QLabel(case[0]))
-        cc_loc_vbox.setAlignment(core.Qt.AlignTop)
-        cc_loc_group.setLayout(cc_loc_vbox)
+        # Check if patient has any case
+        if case is not None:
+            # Case Information
+            # Chief Complaint
+            cc_group = qt.QGroupBox('Chief Complaint')
+            cc_col = qt.QVBoxLayout()
+            cc_row = qt.QHBoxLayout()
+            cc_loc_group = qt.QGroupBox('Location')
+            cc_loc_vbox = qt.QVBoxLayout()
+            cc_loc_vbox.addWidget(qt.QLabel(case[0]))
+            cc_loc_vbox.setAlignment(core.Qt.AlignTop)
+            cc_loc_group.setLayout(cc_loc_vbox)
+            cc_loc_group.setMinimumWidth(200)
 
-        cc_sen_group = qt.QGroupBox('Sensation')
-        cc_sen_vbox = qt.QVBoxLayout()
-        cc_sen_vbox.addWidget(qt.QLabel(case[1]))
-        cc_sen_vbox.setAlignment(core.Qt.AlignTop)
-        cc_sen_group.setLayout(cc_sen_vbox)
+            cc_sen_group = qt.QGroupBox('Sensation')
+            cc_sen_vbox = qt.QVBoxLayout()
+            cc_sen_vbox.addWidget(qt.QLabel(case[1]))
+            cc_sen_vbox.setAlignment(core.Qt.AlignTop)
+            cc_sen_group.setLayout(cc_sen_vbox)
+            cc_sen_group.setMinimumWidth(200)
 
-        cc_mod_group = qt.QGroupBox('Modality')
-        cc_mod_vbox = qt.QVBoxLayout()
-        cc_mod_vbox.addWidget(
-            qt.QLabel('Amelioration: \n' + case[2] + '\n\nAggrevation:  \n' + case[3]))
-        cc_mod_vbox.setAlignment(core.Qt.AlignTop)
-        cc_mod_group.setLayout(cc_mod_vbox)
+            cc_mod_group = qt.QGroupBox('Modality')
+            cc_mod_vbox = qt.QVBoxLayout()
+            cc_mod_vbox.addWidget(
+                qt.QLabel('Aggravation:  ' + case[2]))
+            cc_mod_vbox.addWidget(QHSeperationLine())
+            cc_mod_vbox.addWidget(
+                qt.QLabel('Amelioration:  ' + case[3]))
+            cc_mod_vbox.setAlignment(core.Qt.AlignTop)
+            cc_mod_group.setLayout(cc_mod_vbox)
+            cc_mod_group.setMinimumWidth(200)
 
-        cc_con_group = qt.QGroupBox('Concomitant')
-        cc_con_vbox = qt.QVBoxLayout()
-        cc_con_vbox.addWidget(qt.QLabel(case[4]))
-        cc_con_vbox.setAlignment(core.Qt.AlignTop)
-        cc_con_group.setLayout(cc_sen_vbox)
+            cc_con_group = qt.QGroupBox('Concomitant')
+            cc_con_vbox = qt.QVBoxLayout()
+            cc_con_vbox.addWidget(qt.QLabel(case[4]))
+            cc_con_vbox.setAlignment(core.Qt.AlignTop)
+            cc_con_group.setLayout(cc_con_vbox)
+            cc_con_group.setMinimumWidth(200)
 
-        cc_row.addWidget(cc_loc_group)
-        # cc_row.addStretch()
-        cc_row.addWidget(cc_sen_group)
-        # cc_row.addStretch()
-        cc_row.addWidget(cc_mod_group)
-        # cc_row.addStretch()
-        cc_row.addWidget(cc_con_group)
-        cc_group.setLayout(cc_row)
+            cc_row.addWidget(cc_loc_group)
+            # cc_row.addStretch()
+            cc_row.addWidget(cc_sen_group)
+            # cc_row.addStretch()
+            cc_row.addWidget(cc_mod_group)
+            # cc_row.addStretch()
+            cc_row.addWidget(cc_con_group)
+            cc_col.addLayout(cc_row)
 
-        vbox.addWidget(cc_group)
+            # Show Allopathy Medicine
+            cc_col.addWidget(qt.QLabel('Allopathy Medicine:  ' + case[5]))
+            cc_group.setLayout(cc_col)
 
-        # Associated Complaint
-        ac_group = qt.QGroupBox('Associated Complaints')
-        ac_vbox = qt.QVBoxLayout()
-        ac_loc = case[5].split('|')
-        ac_sen = case[6].split('|')
-        ac_ame = case[7].split('|')
-        ac_agg = case[8].split('|')
-        ac_con = case[9].split('|')
-        for ac_loc_data, ac_sen_data, ac_ame_data, ac_agg_data, ac_con_data in zip(ac_loc, ac_sen, ac_ame, ac_agg, ac_con):
-            ac_row = qt.QHBoxLayout()
-            ac_loc_group = qt.QGroupBox('Location')
-            ac_loc_vbox = qt.QVBoxLayout()
-            ac_loc_vbox.addWidget(qt.QLabel(ac_loc_data))
-            ac_loc_vbox.setAlignment(core.Qt.AlignTop)
-            ac_loc_group.setLayout(ac_loc_vbox)
+            vbox.addWidget(cc_group)
 
-            ac_sen_group = qt.QGroupBox('Sensation')
-            ac_sen_vbox = qt.QVBoxLayout()
-            ac_sen_vbox.addWidget(qt.QLabel(ac_sen_data))
-            ac_sen_vbox.setAlignment(core.Qt.AlignTop)
-            ac_sen_group.setLayout(ac_sen_vbox)
+            # Associated Complaint
+            if case[6] != '' or case[7] != '' or case[8] != '' or case[9] != '' or case[10] != '' or case[11] != '':
+                ac_group = qt.QGroupBox('Associated Complaints')
+                ac_vbox = qt.QVBoxLayout()
+                ac_loc = case[6].split('|')
+                ac_sen = case[7].split('|')
+                ac_agg = case[8].split('|')
+                ac_ame = case[9].split('|')
+                ac_con = case[10].split('|')
+                ac_alp = case[11].split('|')
 
-            ac_mod_group = qt.QGroupBox('Modality')
-            ac_mod_vbox = qt.QVBoxLayout()
-            ac_mod_vbox.addWidget(
-                qt.QLabel('Amelioration: \n' + ac_ame_data + '\n\nAggrevation:  \n' + ac_agg_data))
-            ac_mod_vbox.setAlignment(core.Qt.AlignTop)
-            ac_mod_group.setLayout(ac_mod_vbox)
+                ac_row = []
+                ac_loc_group = []
+                ac_sen_group = []
+                ac_mod_group = []
+                ac_con_group = []
+                ac_loc_vbox = []
+                ac_sen_vbox = []
+                ac_mod_vbox = []
+                ac_con_vbox = []
 
-            ac_con_group = qt.QGroupBox('Concomitant')
-            ac_con_vbox = qt.QVBoxLayout()
-            ac_con_vbox.addWidget(qt.QLabel(ac_con_data))
-            ac_con_vbox.setAlignment(core.Qt.AlignTop)
-            ac_con_group.setLayout(ac_sen_vbox)
+                for ac_num, (ac_loc_data, ac_sen_data, ac_ame_data, ac_agg_data, ac_con_data, ac_alp_data) \
+                        in enumerate(zip(ac_loc, ac_sen, ac_ame, ac_agg, ac_con, ac_alp)):
+                    ac_row.append(qt.QHBoxLayout())
+                    ac_loc_group.append(qt.QGroupBox('Location'))
+                    ac_loc_vbox.append(qt.QVBoxLayout())
+                    ac_loc_vbox[ac_num].addWidget(qt.QLabel(ac_loc_data))
+                    ac_loc_vbox[ac_num].setAlignment(core.Qt.AlignTop)
+                    ac_loc_group[ac_num].setLayout(ac_loc_vbox[ac_num])
+                    ac_loc_group[ac_num].setMinimumWidth(200)
+                    # ac_loc_group.setMinimumHeight(200)
 
-            ac_row.addWidget(ac_loc_group)
-            # ac_row.addStretch()
-            ac_row.addWidget(ac_sen_group)
-            # ac_row.addStretch()
-            ac_row.addWidget(ac_mod_group)
-            # ac_row.addStretch()
-            ac_row.addWidget(ac_con_group)
-            ac_vbox.addLayout(ac_row)
+                    ac_sen_group.append(qt.QGroupBox('Sensation'))
+                    ac_sen_vbox.append(qt.QVBoxLayout())
+                    ac_sen_vbox[ac_num].addWidget(qt.QLabel(ac_sen_data))
+                    ac_sen_vbox[ac_num].setAlignment(core.Qt.AlignTop)
+                    ac_sen_group[ac_num].setLayout(ac_sen_vbox[ac_num])
+                    ac_sen_group[ac_num].setMinimumWidth(200)
+                    # ac_sen_group.setMinimumHeight(200)
 
-        ac_group.setLayout(ac_vbox)
-        vbox.addWidget(ac_group)
+                    ac_mod_group.append(qt.QGroupBox('Modality'))
+                    ac_mod_vbox.append(qt.QVBoxLayout())
+                    ac_mod_vbox[ac_num].addWidget(
+                        qt.QLabel('Aggravation:  ' + ac_agg_data))
+                    ac_mod_vbox[ac_num].addWidget(QHSeperationLine())
+                    ac_mod_vbox[ac_num].addWidget(
+                        qt.QLabel('Amelioration:  ' + ac_ame_data))
+                    ac_mod_vbox[ac_num].setAlignment(core.Qt.AlignTop)
+                    ac_mod_group[ac_num].setLayout(ac_mod_vbox[ac_num])
+                    ac_mod_group[ac_num].setMinimumWidth(200)
+                    # ac_mod_group.setMinimumHeight(200)
+
+                    ac_con_group.append(qt.QGroupBox('Concomitant'))
+                    ac_con_vbox.append(qt.QVBoxLayout())
+                    ac_con_vbox[ac_num].addWidget(qt.QLabel(ac_con_data))
+                    ac_con_vbox[ac_num].setAlignment(core.Qt.AlignTop)
+                    ac_con_group[ac_num].setLayout(ac_con_vbox[ac_num])
+                    ac_con_group[ac_num].setMinimumWidth(200)
+                    # ac_con_group.setMinimumHeight(200)
+
+                    ac_row[ac_num].addWidget(ac_loc_group[ac_num])
+                    # ac_row.addStretch()
+                    ac_row[ac_num].addWidget(ac_sen_group[ac_num])
+                    # ac_row.addStretch()
+                    ac_row[ac_num].addWidget(ac_mod_group[ac_num])
+                    # ac_row.addStretch()
+                    ac_row[ac_num].addWidget(ac_con_group[ac_num])
+
+                    ac_vbox.addLayout(ac_row[ac_num])
+
+                    ac_vbox.addWidget(
+                        qt.QLabel('Allopathy Medicine:  ' + ac_alp_data))
+                    if ac_num < len(ac_loc) - 1:
+                        ac_vbox.addWidget(QHSeperationLine())
+
+                ac_group.setLayout(ac_vbox)
+                vbox.addWidget(ac_group)
+
+            # Past History
+            ph_grp = qt.QGroupBox('Past History')
+            ph_row = qt.QVBoxLayout()
+            ph_data = case[12]
+            ph_row.addWidget(qt.QLabel(ph_data))
+            ph_grp.setLayout(ph_row)
+            vbox.addWidget(ph_grp)
+
+            # Female History
+            if patient[4] == 'F':
+                mh_grp = qt.QGroupBox('Female History')
+                mh_form = qt.QFormLayout()
+
+                mh_form.addRow(
+                    qt.QLabel('Menstrual History:  '),
+                    qt.QLabel(case[13])
+                )
+
+                mh_form.addRow(
+                    qt.QLabel('Leucorrhoea:  '),
+                    qt.QLabel(case[14])
+                )
+
+                mh_form.addRow(
+                    qt.QLabel('Gyaneac History:  '),
+                    qt.QLabel(case[15])
+                )
+
+                mh_grp.setLayout(mh_form)
+                vbox.addWidget(mh_grp)
+
+        else:
+            vbox.addWidget(qt.QLabel('No Case for this Patient'))
+
         # Set Scrolling Layout
         scroll_widget.setLayout(vbox)
         scroll_win.setWidget(scroll_widget)
@@ -994,4 +1112,6 @@ class ViewCase(qt.QDialog):
 
         # Show Window
         self.setModal(True)
+        self.setWindowIcon(settings["icon"])
+        self.showMaximized()
         self.exec()

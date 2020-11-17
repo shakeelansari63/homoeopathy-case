@@ -1,5 +1,5 @@
 from homoeopathy_app import App
-from homoeopathy_app.new_case import Case
+from homoeopathy_app.case import Case
 
 app = App()
 # app.run()
