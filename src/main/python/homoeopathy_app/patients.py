@@ -30,9 +30,9 @@ class MyPatients(qt.QWidget):
         # Set heading
         heading = qt.QLabel('My Patients')
         heading.setAlignment(core.Qt.AlignCenter)
-        heading_font = gui.QFont()
-        heading_font.setBold(True)
-        heading.setFont(heading_font)
+        self.heading_font = gui.QFont()
+        self.heading_font.setBold(True)
+        heading.setFont(self.heading_font)
 
         # Open Patient by ID
         hrow1 = qt.QHBoxLayout()
@@ -51,9 +51,24 @@ class MyPatients(qt.QWidget):
 
         # Table widget for showing patients List
         self.my_patients_table = qt.QTableWidget()
+        # Stop Editting table cells
         self.my_patients_table.setEditTriggers(qt.QTableWidget.NoEditTriggers)
+
+        # Remove grid Lines
+        self.my_patients_table.setShowGrid(False)
+
+        # Set Resizable Header
         header = self.my_patients_table.horizontalHeader()
         header.setSectionResizeMode(qt.QHeaderView.ResizeToContents)
+        header.setResizeContentsPrecision(20)
+
+        # Stop selection of cells
+        self.my_patients_table.setFocusPolicy(core.Qt.NoFocus)
+        self.my_patients_table.setSelectionMode(qt.QTableWidget.NoSelection)
+
+        # Remove horizontal and vertcal headers
+        self.my_patients_table.verticalHeader().setVisible(False)
+        self.my_patients_table.horizontalHeader().setVisible(False)
 
         # Horizontal Box for Bottom button
         hbox = qt.QHBoxLayout()
@@ -103,16 +118,38 @@ class MyPatients(qt.QWidget):
 
     def make_patient_list(self, patient_list):
         # Table Setup
-        self.my_patients_table.setColumnCount(10)
+        self.my_patients_table.setColumnCount(12)
         self.my_patients_table.setRowCount(
-            len(patient_list) if patient_list is not None else 0)
-        self.my_patients_table.setHorizontalHeaderLabels(
-            ('Patient Id', 'First Name', 'Last Name', 'Age', 'Gender', 'Phone', 'Address', '', '', ''))
-        self.my_patients_table.verticalHeader().setVisible(False)
+            len(patient_list) + 1 if patient_list is not None else 1)
+        # self.my_patients_table.setHorizontalHeaderLabels(
+        #    ('Patient Id', 'First Name', 'Last Name', 'Age', 'Gender', 'Phone', 'Address', '', '', ''))
+        pidHdr = qt.QLabel('  Patient Id  ')
+        pidHdr.setFont(self.heading_font)
+        self.my_patients_table.setCellWidget(0, 0, pidHdr)
+
+        pnHdr = qt.QLabel('  Patient Name  ')
+        pnHdr.setFont(self.heading_font)
+        self.my_patients_table.setCellWidget(0, 1, pnHdr)
+
+        pageHdr = qt.QLabel('  Patient Age  ')
+        pageHdr.setFont(self.heading_font)
+        self.my_patients_table.setCellWidget(0, 2, pageHdr)
+
+        pgenHdr = qt.QLabel('  Gender  ')
+        pgenHdr.setFont(self.heading_font)
+        self.my_patients_table.setCellWidget(0, 3, pgenHdr)
+
+        pphoneHdr = qt.QLabel('  Phone  ')
+        pphoneHdr.setFont(self.heading_font)
+        self.my_patients_table.setCellWidget(0, 4, pphoneHdr)
+
+        paddHdr = qt.QLabel('  Address  ')
+        paddHdr.setFont(self.heading_font)
+        self.my_patients_table.setCellWidget(0, 5, paddHdr)
 
         # Add items to table
         if patient_list is not None:
-            for row, patient in enumerate(patient_list):
+            for row, patient in enumerate(patient_list, start=1):
                 pid, fname, lname, yob, gender, phone, address,  *_ = patient
 
                 # Calculate age
@@ -120,22 +157,20 @@ class MyPatients(qt.QWidget):
                 age = this_year - yob
 
                 self.my_patients_table.setItem(
-                    row, 0, qt.QTableWidgetItem(str(pid)))
+                    row, 0, qt.QTableWidgetItem('  ' + str(pid) + '  '))
                 self.my_patients_table.setItem(
-                    row, 1, qt.QTableWidgetItem(str(fname)))
+                    row, 1, qt.QTableWidgetItem('  ' + str(fname) + ' ' + str(lname) + '  '))
                 self.my_patients_table.setItem(
-                    row, 2, qt.QTableWidgetItem(str(lname)))
+                    row, 2, qt.QTableWidgetItem('  ' + str(age) + '  '))
                 self.my_patients_table.setItem(
-                    row, 3, qt.QTableWidgetItem(str(age)))
+                    row, 3, qt.QTableWidgetItem('  ' + str(gender) + '  '))
                 self.my_patients_table.setItem(
-                    row, 4, qt.QTableWidgetItem(str(gender)))
+                    row, 4, qt.QTableWidgetItem('  ' + str(phone) + '  '))
                 self.my_patients_table.setItem(
-                    row, 5, qt.QTableWidgetItem(str(phone)))
-                self.my_patients_table.setItem(
-                    row, 6, qt.QTableWidgetItem(str(address)))
+                    row, 5, qt.QTableWidgetItem('  ' + str(address) + '  '))
 
                 # Action Buttons
-                edit_patn = qt.QPushButton('Edit Patient Information')
+                edit_patn = qt.QPushButton('Edit Patient Info')
                 edit_patn.adjustSize()
                 edit_patn.clicked.connect(partial(self.edit_patient, str(pid)))
 
@@ -150,10 +185,10 @@ class MyPatients(qt.QWidget):
                     row, 7, edit_patn
                 )
                 self.my_patients_table.setCellWidget(
-                    row, 8, view_case
+                    row, 9, view_case
                 )
                 self.my_patients_table.setCellWidget(
-                    row, 9, edit_case
+                    row, 11, edit_case
                 )
 
         # Refresh Table
@@ -292,6 +327,20 @@ class NewPatient(qt.QDialog):
             self.addrTE.setPlainText(patient[6])
             self.occLE.setText(patient[7])
             self.refLE.setText(patient[9])
+
+            if patient[4] == 'M':
+                self.maleRB.setChecked(True)
+            elif patient[4] == 'F':
+                self.femaleRB.setChecked(True)
+            else:
+                self.othGenRB.setChecked(True)
+
+            if patient[8] == 'M':
+                self.marriedRB.setChecked(True)
+            elif patient[8] == 'S':
+                self.singleRB.setChecked(True)
+            else:
+                self.unkMarStatRB.setChecked(True)
 
         # Show Window
         self.setModal(True)
