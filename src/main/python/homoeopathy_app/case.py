@@ -1148,6 +1148,283 @@ class ViewCase(qt.QDialog):
                 mh_grp.setLayout(mh_form)
                 vbox.addWidget(mh_grp)
 
+            # Childhood history for children
+            if age < 15:
+                ch_grp = qt.QGroupBox('Childhood Milestones')
+                ch_form = qt.QFormLayout()
+
+                ch_form.addRow(
+                    qt.QLabel('Teething:  '),
+                    qt.QLabel(case[55])
+                )
+                ch_form.addRow(
+                    qt.QLabel('Crawling:  '),
+                    qt.QLabel(case[56])
+                )
+                ch_form.addRow(
+                    qt.QLabel('Walking:  '),
+                    qt.QLabel(case[57])
+                )
+                ch_form.addRow(
+                    qt.QLabel('Speaking:  '),
+                    qt.QLabel(case[58])
+                )
+                ch_form.addRow(
+                    qt.QLabel('Vaccine:  '),
+                    qt.QLabel(case[59])
+                )
+                ch_form.addRow(
+                    qt.QLabel('Head and Crown:  '),
+                    qt.QLabel(case[60])
+                )
+
+                ch_grp.setLayout(ch_form)
+                vbox.addWidget(ch_grp)
+
+            # Physical General
+            pg_grp = qt.QGroupBox('Physical General')
+            pg_form = qt.QFormLayout()
+
+            pg_form.addRow(
+                qt.QLabel('Appetite:  '),
+                qt.QLabel(case[16])
+            )
+            pg_form.addRow(
+                qt.QLabel('Thermals:  '),
+                qt.QLabel(case[17])
+            )
+            pg_form.addRow(
+                qt.QLabel('Thirst:  '),
+                qt.QLabel(case[18])
+            )
+            pg_form.addRow(
+                qt.QLabel('Aversion:  '),
+                qt.QLabel(case[19])
+            )
+            pg_form.addRow(
+                qt.QLabel('Disagree:  '),
+                qt.QLabel(case[20])
+            )
+            pg_form.addRow(
+                qt.QLabel('Undigestable Things:  '),
+                qt.QLabel(case[21])
+            )
+            pg_form.addRow(
+                qt.QLabel('Hundger:  '),
+                qt.QLabel(case[22])
+            )
+            pg_form.addRow(
+                qt.QLabel('Stool:  '),
+                qt.QLabel(case[23])
+            )
+            pg_form.addRow(
+                qt.QLabel('Urine:  '),
+                qt.QLabel(case[24])
+            )
+            pg_form.addRow(
+                qt.QLabel('Sweat:  '),
+                qt.QLabel(case[25])
+            )
+            pg_form.addRow(
+                qt.QLabel('Sleep:  '),
+                qt.QLabel(case[26])
+            )
+            pg_form.addRow(
+                qt.QLabel('Dreams:  '),
+                qt.QLabel(case[27])
+            )
+            pg_form.addRow(
+                qt.QLabel('Skin:  '),
+                qt.QLabel(case[28])
+            )
+            pg_form.addRow(
+                qt.QLabel('Nails:  '),
+                qt.QLabel(case[29])
+            )
+            pg_form.addRow(
+                qt.QLabel('Hobbies:  '),
+                qt.QLabel(case[30])
+            )
+            pg_form.addRow(
+                qt.QLabel('Addiction:  '),
+                qt.QLabel(case[31])
+            )
+            pg_form.addRow(
+                qt.QLabel('Smell:  '),
+                qt.QLabel(case[32])
+            )
+            pg_form.addRow(
+                qt.QLabel('Taste:  '),
+                qt.QLabel(case[33])
+            )
+            pg_form.addRow(
+                qt.QLabel('Touch:  '),
+                qt.QLabel(case[34])
+            )
+            pg_form.addRow(
+                qt.QLabel('Vision:  '),
+                qt.QLabel(case[35])
+            )
+            pg_form.addRow(
+                qt.QLabel('Hearing:  '),
+                qt.QLabel(case[36])
+            )
+            pg_form.addRow(
+                qt.QLabel('Desire:  '),
+                qt.QLabel(case[66])
+            )
+            pg_form.addRow(
+                qt.QLabel('Tongue:  '),
+                qt.QLabel(case[67])
+            )
+            pg_form.addRow(
+                qt.QLabel('Speed:  '),
+                qt.QLabel(case[68])
+            )
+            pg_form.addRow(
+                qt.QLabel('Energy:  '),
+                qt.QLabel(case[69])
+            )
+
+            pg_grp.setLayout(pg_form)
+            vbox.addWidget(pg_grp)
+
+            # Family History
+            fh_grp = qt.QGroupBox('Family History')
+            fh_form = qt.QFormLayout()
+
+            fh_form.addRow(
+                qt.QLabel('Family History:  '),
+                qt.QLabel(case[37])
+            )
+
+            fh_grp.setLayout(fh_form)
+            vbox.addWidget(fh_grp)
+
+            # Mind and Disposition
+            md_grp = qt.QGroupBox('Mind and Disposition')
+            md_form = qt.QFormLayout()
+
+            md_form.addRow(
+                qt.QLabel('Childhood:  '),
+                qt.QLabel(case[38])
+            )
+            md_form.addRow(
+                qt.QLabel('Education:  '),
+                qt.QLabel(case[39])
+            )
+            md_form.addRow(
+                qt.QLabel('Marriage:  '),
+                qt.QLabel(case[40])
+            )
+            md_form.addRow(
+                qt.QLabel('Children:  '),
+                qt.QLabel(case[41])
+            )
+            md_form.addRow(
+                qt.QLabel('Expenses:  '),
+                qt.QLabel(case[42])
+            )
+            md_form.addRow(
+                qt.QLabel('Religious:  '),
+                qt.QLabel(case[43])
+            )
+            md_form.addRow(
+                qt.QLabel('Cleanliness:  '),
+                qt.QLabel(case[44])
+            )
+            md_form.addRow(
+                qt.QLabel('Sympathy:  '),
+                qt.QLabel(case[45])
+            )
+            md_form.addRow(
+                qt.QLabel('Anger:  '),
+                qt.QLabel(case[46])
+            )
+            md_form.addRow(
+                qt.QLabel('Destruction:  '),
+                qt.QLabel(case[47])
+            )
+            md_form.addRow(
+                qt.QLabel('Sexual History:  '),
+                qt.QLabel(case[48])
+            )
+            md_form.addRow(
+                qt.QLabel('Future Plans:  '),
+                qt.QLabel(case[49])
+            )
+            md_form.addRow(
+                qt.QLabel('Business:  '),
+                qt.QLabel(case[50])
+            )
+            md_form.addRow(
+                qt.QLabel('Weeping:  '),
+                qt.QLabel(case[51])
+            )
+            md_form.addRow(
+                qt.QLabel('During Illness:  '),
+                qt.QLabel(case[52])
+            )
+            md_form.addRow(
+                qt.QLabel('Achievements:  '),
+                qt.QLabel(case[53])
+            )
+            md_form.addRow(
+                qt.QLabel('During Holidays:  '),
+                qt.QLabel(case[54])
+            )
+
+            md_grp.setLayout(md_form)
+            vbox.addWidget(md_grp)
+
+            # Current Medications
+            cm_grp = qt.QGroupBox('Current Medications')
+            cm_form = qt.QFormLayout()
+
+            cm_form.addRow(
+                qt.QLabel('Current Medications:  '),
+                qt.QLabel(case[61])
+            )
+
+            cm_grp.setLayout(cm_form)
+            vbox.addWidget(cm_grp)
+
+            # Accutes
+            at_grp = qt.QGroupBox('Accutes')
+            at_form = qt.QFormLayout()
+
+            at_form.addRow(
+                qt.QLabel('Accutes:  '),
+                qt.QLabel(case[62])
+            )
+
+            at_grp.setLayout(at_form)
+            vbox.addWidget(at_grp)
+
+            # Final Prescription
+            fp_grp = qt.QGroupBox('Final Prescription')
+            fp_form = qt.QFormLayout()
+
+            fp_form.addRow(
+                qt.QLabel('Totality:  '),
+                qt.QLabel(case[63])
+            )
+            fp_form.addRow(
+                qt.QLabel('Rubrics:  '),
+                qt.QLabel(case[64])
+            )
+            fp_form.addRow(
+                qt.QLabel('Prescription:  '),
+                qt.QLabel(case[65])
+            )
+            fp_form.addRow(
+                qt.QLabel('D/D:  '),
+                qt.QLabel(case[70])
+            )
+
+            fp_grp.setLayout(fp_form)
+            vbox.addWidget(fp_grp)
+
         else:
             vbox.addWidget(qt.QLabel('No Case for this Patient'))
 
