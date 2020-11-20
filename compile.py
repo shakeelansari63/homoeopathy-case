@@ -26,21 +26,25 @@ qtm_path = os.path.dirname(qtmodern.__file__)
 # Set Logo File
 if sys.platform == 'linux' or sys.platform == 'darwin':
     logofile = "logo.svg"
+    sep = ':'
 else:
     logofile = "logo.ico"
+    sep = ';'
 
 pybuild([
     "main.py",
     "--clean",
     "--onedir",
     "--name=HomoeopathyCase",
-    "--add-data=./pycs:./MainApp",
-    "--add-data=./MainApp/img:./MainApp/img",
-    "--add-data=./MainApp/resources:./MainApp/resources",
-    "--add-data={}:./qtmodern".format(qtm_path),
+    "--add-data=./pycs{}./MainApp".format(sep),
+    "--add-data=./MainApp/img{}./MainApp/img".format(sep),
+    "--add-data=./MainApp/resources{}./MainApp/resources".format(sep),
+    "--add-data={}{}./qtmodern".format(qtm_path, sep),
     "--windowed",
     "--icon={}".format(logofile)
 ])
 
 # Cleanup Temporary Files
 shutil.rmtree('pycs/')
+
+os.remove('HomoeopathyCase.spec')
