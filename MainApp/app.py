@@ -1,8 +1,8 @@
 #---------- code:utf8 --------------#
 from PyQt5 import QtWidgets as qt
 from PyQt5 import QtGui as gui
-from setting import settings
-from patients import MyPatients
+from .setting import settings
+from .patients import MyPatients
 from qtmodern import styles as modernstyle
 import sys
 
