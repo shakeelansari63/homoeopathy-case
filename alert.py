@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets as qt
 from PyQt5 import QtGui as gui
 from PyQt5 import QtCore as core
-from .setting import settings
+from setting import settings
 
 
 class MsgErrBox(qt.QMessageBox):

@@ -1,9 +1,9 @@
 from PyQt5 import QtWidgets as qt
 from PyQt5 import QtGui as gui
 from PyQt5 import QtCore as core
-from .db import PatientDB, CaseDB
-from .alert import MsgSucBox, MsgErrBox
-from .setting import settings
+from db import PatientDB, CaseDB
+from alert import MsgSucBox, MsgErrBox
+from setting import settings
 
 
 class Setup(qt.QDialog):

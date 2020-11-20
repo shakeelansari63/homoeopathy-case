@@ -1,6 +1,6 @@
 #---------- code:utf8 --------------#
 import sqlite3 as sqldb
-from .setting import settings
+from setting import settings
 from datetime import datetime
 
 

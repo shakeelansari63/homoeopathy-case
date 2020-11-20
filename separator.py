@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets as qt
-from .setting import settings
+from setting import settings
 
 
 class QHSeperationLine(qt.QFrame):

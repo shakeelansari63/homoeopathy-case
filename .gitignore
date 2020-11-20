@@ -81,3 +81,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# BUild and Dist directories
+build
+dist

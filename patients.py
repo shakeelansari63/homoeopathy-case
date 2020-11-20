@@ -2,11 +2,11 @@ from PyQt5 import QtWidgets as qt
 from PyQt5 import QtGui as gui
 from PyQt5 import QtCore as core
 from functools import partial
-from .db import PatientDB
-from .case import Case, ViewCase
-from .setting import settings
-from .my_setup import Setup
-from .alert import MsgErrBox
+from db import PatientDB
+from case import Case, ViewCase
+from setting import settings
+from my_setup import Setup
+from alert import MsgErrBox
 from datetime import date
 
 

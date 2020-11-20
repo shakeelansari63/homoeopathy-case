@@ -1,10 +1,10 @@
 from PyQt5 import QtWidgets as qt
 from PyQt5 import QtGui as gui
 from PyQt5 import QtCore as core
-from .db import PatientDB, CaseDB
-from .alert import MsgErrBox, MsgSucBox
-from .setting import settings
-from .separator import QHSeperationLine
+from db import PatientDB, CaseDB
+from alert import MsgErrBox, MsgSucBox
+from setting import settings
+from separator import QHSeperationLine
 from datetime import date
 from functools import partial
 
