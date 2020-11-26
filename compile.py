@@ -6,6 +6,7 @@ import shutil
 import tarfile
 from zipfile import ZipFile, ZIP_DEFLATED
 
+
 def compile_package(packagename):
     # Cleanup existing build and dist dirs
     if os.path.exists('build/'):
@@ -53,9 +54,15 @@ def compile_package(packagename):
 
     os.remove('{}.spec'.format(packagename))
 
+    # For testing
+    # platformid = 'win32'
+
+    # Go to Dist Directory
+    os.chdir('./dist/')
+
     # Package in tar File
+    target_dir = '{}'.format(packagename)
     if platformid == 'linux' or platformid == 'darwin':
-        target_dir = './dist/{}'.format(packagename)
         with tarfile.open('{}.tar.gz'.format(target_dir), 'w:gz') as tar:
             tar.add(target_dir, arcname=packagename)
 
@@ -65,6 +72,7 @@ def compile_package(packagename):
             for root, dirs, files in os.walk(target_dir):
                 for file in files:
                     ziph.write(os.path.join(root, file))
+
 
 if __name__ == '__main__':
     compile_package('HomoeopathyCase')

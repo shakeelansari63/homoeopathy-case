@@ -4,5 +4,11 @@
     "icon": "img/logo.svg",
     "delete_icon": "img/delete.png",
     "fontfile": "resources/NotoSans-regular.ttf",
-    "themefile": "resources/theme.qss"
+    "themefile": "resources/theme.qss",
+    "boldicon": "img/bold.svg",
+    "italicicon": "img/italic.svg",
+    "underlineicon": "img/underline.svg",
+    "redicon": "img/redbox.svg",
+    "blueicon": "img/bluebox.svg",
+    "greenicon": "img/greenbox.svg"
 }
