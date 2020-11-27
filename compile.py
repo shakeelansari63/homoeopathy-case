@@ -69,7 +69,7 @@ def compile_package(packagename):
     # Package in Zip File
     else:
         with ZipFile('{}.zip'.format(target_dir), 'w', ZIP_DEFLATED) as ziph:
-            for root, dirs, files in os.walk(target_dir):
+            for root, _, files in os.walk(target_dir):
                 for file in files:
                     ziph.write(os.path.join(root, file))
 
