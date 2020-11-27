@@ -1011,11 +1011,13 @@ class ViewCase(qt.QDialog):
             cc_agg_row = qt.QHBoxLayout()
             cc_agg_row.addWidget(qt.QLabel('Aggravation:  '))
             cc_agg_row.addWidget(qt.QLabel(case[2]))
+            cc_agg_row.addStretch()
             cc_mod_vbox.addLayout(cc_agg_row)
             cc_mod_vbox.addWidget(QHSeperationLine())
             cc_ame_row = qt.QHBoxLayout()
             cc_ame_row.addWidget(qt.QLabel('Amelioration:  '))
             cc_ame_row.addWidget(qt.QLabel(case[3]))
+            cc_ame_row.addStretch()
             cc_mod_vbox.addLayout(cc_ame_row)
             cc_mod_vbox.setAlignment(core.Qt.AlignTop)
             cc_mod_group.setLayout(cc_mod_vbox)
@@ -1039,6 +1041,7 @@ class ViewCase(qt.QDialog):
             cc_alm = qt.QHBoxLayout()
             cc_alm.addWidget(qt.QLabel('Allopathy Medicine:  '))
             cc_alm.addWidget(qt.QLabel(case[5]))
+            cc_alm.addStretch()
             cc_col.addLayout(cc_alm)
             cc_group.setLayout(cc_col)
 
@@ -1087,11 +1090,13 @@ class ViewCase(qt.QDialog):
                     ac_agg_row = qt.QHBoxLayout()
                     ac_agg_row.addWidget(qt.QLabel('Aggravation:  '))
                     ac_agg_row.addWidget(qt.QLabel(ac_agg_data))
+                    ac_agg_row.addStretch()
                     ac_mod_vbox[ac_num].addLayout(ac_agg_row)
                     ac_mod_vbox[ac_num].addWidget(QHSeperationLine())
                     ac_ame_row = qt.QHBoxLayout()
                     ac_ame_row.addWidget(qt.QLabel('Amelioration:  '))
                     ac_ame_row.addWidget(qt.QLabel(ac_ame_data))
+                    ac_ame_row.addStretch()
                     ac_mod_vbox[ac_num].addLayout(ac_ame_row)
                     ac_mod_vbox[ac_num].setAlignment(core.Qt.AlignTop)
                     ac_mod_group[ac_num].setLayout(ac_mod_vbox[ac_num])
@@ -1116,7 +1121,8 @@ class ViewCase(qt.QDialog):
                     ac_alm = qt.QHBoxLayout()
                     ac_alm.addWidget(qt.QLabel('Allopathy Medicine:  '))
                     ac_alm.addWidget(qt.QLabel(ac_alp_data))
-                    ac_vbox.addLayout(cc_alm)
+                    ac_alm.addStretch()
+                    ac_vbox.addLayout(ac_alm)
                     if ac_num < len(ac_loc) - 1:
                         ac_vbox.addWidget(QHSeperationLine())
 
@@ -1420,7 +1426,7 @@ class ViewCase(qt.QDialog):
                 qt.QLabel(case[64])
             )
             fp_form.addRow(
-                qt.QLabel('Prescription:  '),
+                qt.QLabel('Prescription + Potency:  '),
                 qt.QLabel(case[65])
             )
             fp_form.addRow(

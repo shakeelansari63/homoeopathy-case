@@ -15,7 +15,8 @@ class QHSeperationLine(qt.QFrame):
         self.setFrameShadow(qt.QFrame.Sunken)
         self.setSizePolicy(qt.QSizePolicy.Preferred,
                            qt.QSizePolicy.Minimum)
-        return
 
         # Set Stylesheet
         self.setStyleSheet(settings["theme"])
+
+        return
