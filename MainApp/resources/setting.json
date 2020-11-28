@@ -10,5 +10,13 @@
     "underlineicon": "img/underline.svg",
     "redicon": "img/redbox.svg",
     "blueicon": "img/bluebox.svg",
-    "greenicon": "img/greenbox.svg"
+    "greenicon": "img/greenbox.svg",
+    "edit-case": "img/edit-case.svg",
+    "see-case": "img/see-case.svg",
+    "save-icon": "img/save.svg",
+    "add-user": "img/user-add.svg",
+    "edit-user": "img/user-edit.svg",
+    "refresh": "img/refresh.svg",
+    "setup": "img/setup.svg",
+    "save": "img/save.svg"
 }

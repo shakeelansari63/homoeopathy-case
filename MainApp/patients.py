@@ -59,8 +59,11 @@ class MyPatients(qt.QWidget):
 
         # Set Resizable Header
         header = self.my_patients_table.horizontalHeader()
+        vheader = self.my_patients_table.verticalHeader()
         header.setSectionResizeMode(qt.QHeaderView.ResizeToContents)
+        vheader.setSectionResizeMode(qt.QHeaderView.Fixed)
         header.setResizeContentsPrecision(20)
+        vheader.setDefaultSectionSize(32)
 
         # Stop selection of cells
         self.my_patients_table.setFocusPolicy(core.Qt.NoFocus)
@@ -72,9 +75,24 @@ class MyPatients(qt.QWidget):
 
         # Horizontal Box for Bottom button
         hbox = qt.QHBoxLayout()
-        new_patient = qt.QPushButton('New Patient')
-        refresh = qt.QPushButton('Refresh')
-        setup = qt.QPushButton('Setup')
+        # New Patients Button
+        new_patient = qt.QPushButton('')
+        new_patient.setToolTip('New Patient')
+        new_patient.setIcon(gui.QIcon(settings['add-user']))
+        new_patient.setFlat(True)
+        new_patient.setIconSize(core.QSize(32, 32))
+        # Refresh Button
+        refresh = qt.QPushButton('')
+        refresh.setToolTip('Refresh')
+        refresh.setIcon(gui.QIcon(settings['refresh']))
+        refresh.setFlat(True)
+        refresh.setIconSize(core.QSize(32, 32))
+        # Setup Button
+        setup = qt.QPushButton('')
+        setup.setToolTip('Setup')
+        setup.setIcon(gui.QIcon(settings['setup']))
+        setup.setFlat(True)
+        setup.setIconSize(core.QSize(32, 32))
 
         # Action for Push Button
         new_patient.clicked.connect(self.openNewPatient)
@@ -123,27 +141,27 @@ class MyPatients(qt.QWidget):
             len(patient_list) + 1 if patient_list is not None else 1)
         # self.my_patients_table.setHorizontalHeaderLabels(
         #    ('Patient Id', 'First Name', 'Last Name', 'Age', 'Gender', 'Phone', 'Address', '', '', ''))
-        pidHdr = qt.QLabel('  Patient Id  ')
+        pidHdr = qt.QLabel('Patient Id    ')
         pidHdr.setFont(self.heading_font)
         self.my_patients_table.setCellWidget(0, 0, pidHdr)
 
-        pnHdr = qt.QLabel('  Patient Name  ')
+        pnHdr = qt.QLabel('Patient Name    ')
         pnHdr.setFont(self.heading_font)
         self.my_patients_table.setCellWidget(0, 1, pnHdr)
 
-        pageHdr = qt.QLabel('  Patient Age  ')
+        pageHdr = qt.QLabel('Patient Age    ')
         pageHdr.setFont(self.heading_font)
         self.my_patients_table.setCellWidget(0, 2, pageHdr)
 
-        pgenHdr = qt.QLabel('  Gender  ')
+        pgenHdr = qt.QLabel('Gender    ')
         pgenHdr.setFont(self.heading_font)
         self.my_patients_table.setCellWidget(0, 3, pgenHdr)
 
-        pphoneHdr = qt.QLabel('  Phone  ')
+        pphoneHdr = qt.QLabel('Phone    ')
         pphoneHdr.setFont(self.heading_font)
         self.my_patients_table.setCellWidget(0, 4, pphoneHdr)
 
-        paddHdr = qt.QLabel('  Address  ')
+        paddHdr = qt.QLabel('Address    ')
         paddHdr.setFont(self.heading_font)
         self.my_patients_table.setCellWidget(0, 5, paddHdr)
 
@@ -157,27 +175,35 @@ class MyPatients(qt.QWidget):
                 age = this_year - yob
 
                 self.my_patients_table.setItem(
-                    row, 0, qt.QTableWidgetItem('  ' + str(pid) + '  '))
+                    row, 0, qt.QTableWidgetItem(str(pid) + '    '))
                 self.my_patients_table.setItem(
-                    row, 1, qt.QTableWidgetItem('  ' + str(fname) + ' ' + str(lname) + '  '))
+                    row, 1, qt.QTableWidgetItem(str(fname) + ' ' + str(lname) + '    '))
                 self.my_patients_table.setItem(
-                    row, 2, qt.QTableWidgetItem('  ' + str(age) + '  '))
+                    row, 2, qt.QTableWidgetItem(str(age) + '    '))
                 self.my_patients_table.setItem(
-                    row, 3, qt.QTableWidgetItem('  ' + str(gender) + '  '))
+                    row, 3, qt.QTableWidgetItem(str(gender) + '    '))
                 self.my_patients_table.setItem(
-                    row, 4, qt.QTableWidgetItem('  ' + str(phone) + '  '))
+                    row, 4, qt.QTableWidgetItem(str(phone) + '    '))
                 self.my_patients_table.setItem(
-                    row, 5, qt.QTableWidgetItem('  ' + str(address) + '  '))
+                    row, 5, qt.QTableWidgetItem(str(address) + '    '))
 
                 # Action Buttons
-                edit_patn = qt.QPushButton('Edit Patient Info')
-                edit_patn.adjustSize()
+                edit_patn = qt.QPushButton('Edit Patient')
+                edit_patn.setIcon(gui.QIcon(settings['edit-user']))
+                edit_patn.setFlat(True)
+                edit_patn.setIconSize(core.QSize(28, 28))
                 edit_patn.clicked.connect(partial(self.edit_patient, str(pid)))
 
                 edit_case = qt.QPushButton('Edit Case')
+                edit_case.setIcon(gui.QIcon(settings['edit-case']))
+                edit_case.setFlat(True)
+                edit_case.setIconSize(core.QSize(28, 28))
                 edit_case.clicked.connect(partial(self.edit_case, str(pid)))
 
-                view_case = qt.QPushButton('See Case')
+                view_case = qt.QPushButton('View Case')
+                view_case.setIcon(gui.QIcon(settings['see-case']))
+                view_case.setFlat(True)
+                view_case.setIconSize(core.QSize(28, 28))
                 view_case.clicked.connect(partial(self.view_case, str(pid)))
 
                 # Add row to Table
@@ -304,6 +330,10 @@ class NewPatient(qt.QDialog):
 
         # Submit Button
         submit = qt.QPushButton('Save')
+        submit.setIcon(gui.QIcon(settings['save']))
+        submit.setIconSize(core.QSize(24, 24))
+        submit.setFlat(True)
+        submit.setToolTip('Save Patient')
         submit.clicked.connect(self.add_patient)
         right_alignment_row = qt.QHBoxLayout()
         right_alignment_row.addStretch()

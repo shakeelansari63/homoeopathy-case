@@ -497,6 +497,10 @@ class Case(qt.QDialog):
         # Button to save Case
         submit_row = qt.QHBoxLayout()
         save = qt.QPushButton('Save')
+        save.setIcon(gui.QIcon(settings['save']))
+        save.setIconSize(core.QSize(24, 24))
+        save.setFlat(True)
+        save.setToolTip('Save Case')
         save.clicked.connect(self.save_case)
         submit_row.addStretch()
         submit_row.addWidget(save)

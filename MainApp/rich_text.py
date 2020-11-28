@@ -10,7 +10,7 @@ class RTextEdit(qt.QWidget):
         super().__init__()
 
         # Set resizable Widget
-        # self.setWidgetResizable(True)
+        self.setStyleSheet('margin: 0px; padding:0px;')
 
         # Widget Layout
         self.layout = qt.QVBoxLayout()
@@ -30,6 +30,7 @@ class RTextEdit(qt.QWidget):
         # Editor Configuration for Rich Text
         self.editor.setAutoFormatting(qt.QTextEdit.AutoAll)
         self.editor.setAcceptRichText(True)
+        self.editor.setMinimumHeight(120)
         self.vbox.addWidget(self.editor)
         self.default_color = self.editor.textColor()
 
@@ -43,32 +44,32 @@ class RTextEdit(qt.QWidget):
         self.green = qt.QPushButton('')
 
         # Button Config
-        self.bold.setIcon(settings['boldicon'])
+        self.bold.setIcon(gui.QIcon(settings['boldicon']))
         self.bold.setIconSize(core.QSize(14, 14))
         self.bold.resize(self.bold.sizeHint().width(),
                          self.bold.sizeHint().height())
         self.bold.setFlat(True)
-        self.italic.setIcon(settings['italicicon'])
+        self.italic.setIcon(gui.QIcon(settings['italicicon']))
         self.italic.setIconSize(core.QSize(14, 14))
         self.italic.resize(self.italic.sizeHint().width(),
                            self.italic.sizeHint().height())
         self.italic.setFlat(True)
-        self.underline.setIcon(settings['underlineicon'])
+        self.underline.setIcon(gui.QIcon(settings['underlineicon']))
         self.underline.setIconSize(core.QSize(14, 14))
         self.underline.resize(self.underline.sizeHint().width(),
                               self.underline.sizeHint().height())
         self.underline.setFlat(True)
-        self.red.setIcon(settings['redicon'])
+        self.red.setIcon(gui.QIcon(settings['redicon']))
         self.red.setIconSize(core.QSize(14, 14))
         self.red.resize(self.red.sizeHint().width(),
                         self.red.sizeHint().height())
         self.red.setFlat(True)
-        self.blue.setIcon(settings['blueicon'])
+        self.blue.setIcon(gui.QIcon(settings['blueicon']))
         self.blue.setIconSize(core.QSize(14, 14))
         self.blue.resize(self.blue.sizeHint().width(),
                          self.blue.sizeHint().height())
         self.blue.setFlat(True)
-        self.green.setIcon(settings['greenicon'])
+        self.green.setIcon(gui.QIcon(settings['greenicon']))
         self.green.setIconSize(core.QSize(14, 14))
         self.green.resize(self.green.sizeHint().width(),
                           self.green.sizeHint().height())

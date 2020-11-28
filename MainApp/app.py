@@ -1,6 +1,7 @@
 #---------- code:utf8 --------------#
 from PyQt5 import QtWidgets as qt
 from PyQt5 import QtGui as gui
+from PyQt5 import QtCore as core
 from .setting import settings
 from .patients import MyPatients
 from qtmodern import styles as modernstyle
@@ -12,6 +13,9 @@ class App(qt.QWidget):
         # Create App-
         self.app = qt.QApplication(sys.argv)
         gui.QFontDatabase.addApplicationFont(settings["fontfile"])
+
+        # Set HiDPI
+        self.app.setAttribute(core.Qt.AA_UseHighDpiPixmaps)
 
         # Initialize super class which is widget
         super().__init__()
