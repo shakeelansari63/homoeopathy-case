@@ -202,11 +202,6 @@ class Case(qt.QDialog):
         # Physical general
         physical_general_grp = qt.QGroupBox('Physical General')
         pgform = qt.QFormLayout()
-        # Appetite
-        self.pg_appetite = RTextEdit()
-        self.pg_appetite.setPlaceholderText('Appetite')
-        self.pg_appetite.setTabChangesFocus(True)
-        pgform.addRow(qt.QLabel('Appetite:  '), self.pg_appetite)
         # Thermals
         self.pg_thermal = RTextEdit()
         self.pg_thermal.setPlaceholderText('Thermals')
@@ -217,6 +212,26 @@ class Case(qt.QDialog):
         self.pg_thirst.setPlaceholderText('Thirst')
         self.pg_thirst.setTabChangesFocus(True)
         pgform.addRow(qt.QLabel('Thirst:  '), self.pg_thirst)
+        # Tongue
+        self.pg_tongue = RTextEdit()
+        self.pg_tongue.setPlaceholderText('Tongue')
+        self.pg_tongue.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Tongue:  '), self.pg_tongue)
+        # Appetite
+        self.pg_appetite = RTextEdit()
+        self.pg_appetite.setPlaceholderText('Appetite')
+        self.pg_appetite.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Appetite:  '), self.pg_appetite)
+        # Hunger
+        self.pg_hunger = RTextEdit()
+        self.pg_hunger.setPlaceholderText('Hunger')
+        self.pg_hunger.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Hunger:  '), self.pg_hunger)
+        # Desire
+        self.pg_desire = RTextEdit()
+        self.pg_desire.setPlaceholderText('Desire')
+        self.pg_desire.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Desire:  '), self.pg_desire)
         # Aversion
         self.pg_aversion = RTextEdit()
         self.pg_aversion.setPlaceholderText('Aversion')
@@ -233,11 +248,16 @@ class Case(qt.QDialog):
         self.pg_undigestable.setTabChangesFocus(True)
         pgform.addRow(qt.QLabel('Undigestable Things:  '),
                       self.pg_undigestable)
-        # Hunger
-        self.pg_hunger = RTextEdit()
-        self.pg_hunger.setPlaceholderText('Hunger')
-        self.pg_hunger.setTabChangesFocus(True)
-        pgform.addRow(qt.QLabel('Hunger:  '), self.pg_hunger)
+        # Sleep
+        self.pg_sleep = RTextEdit()
+        self.pg_sleep.setPlaceholderText('Sleep')
+        self.pg_sleep.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Sleep:  '), self.pg_sleep)
+        # Dreams
+        self.pg_dreams = RTextEdit()
+        self.pg_dreams.setPlaceholderText('Dreams')
+        self.pg_dreams.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Dreams:  '), self.pg_dreams)
         # Stool
         self.pg_stool = RTextEdit()
         self.pg_stool.setPlaceholderText('Stool')
@@ -253,16 +273,6 @@ class Case(qt.QDialog):
         self.pg_sweat.setPlaceholderText('Sweat')
         self.pg_sweat.setTabChangesFocus(True)
         pgform.addRow(qt.QLabel('Sweat:  '), self.pg_sweat)
-        # Sleep
-        self.pg_sleep = RTextEdit()
-        self.pg_sleep.setPlaceholderText('Sleep')
-        self.pg_sleep.setTabChangesFocus(True)
-        pgform.addRow(qt.QLabel('Sleep:  '), self.pg_sleep)
-        # Dreams
-        self.pg_dreams = RTextEdit()
-        self.pg_dreams.setPlaceholderText('Dreams')
-        self.pg_dreams.setTabChangesFocus(True)
-        pgform.addRow(qt.QLabel('Dreams:  '), self.pg_dreams)
         # Skin
         self.pg_skin = RTextEdit()
         self.pg_skin.setPlaceholderText('Skin')
@@ -283,16 +293,6 @@ class Case(qt.QDialog):
         self.pg_addiction.setPlaceholderText('Addiction')
         self.pg_addiction.setTabChangesFocus(True)
         pgform.addRow(qt.QLabel('Addiction:  '), self.pg_addiction)
-        # Desire
-        self.pg_desire = RTextEdit()
-        self.pg_desire.setPlaceholderText('Desire')
-        self.pg_desire.setTabChangesFocus(True)
-        pgform.addRow(qt.QLabel('Desire:  '), self.pg_desire)
-        # Tongue
-        self.pg_tongue = RTextEdit()
-        self.pg_tongue.setPlaceholderText('Tongue')
-        self.pg_tongue.setTabChangesFocus(True)
-        pgform.addRow(qt.QLabel('Tongue:  '), self.pg_tongue)
         # Speed
         self.pg_speed = RTextEdit()
         self.pg_speed.setPlaceholderText('Speed')
@@ -1198,16 +1198,28 @@ class ViewCase(qt.QDialog):
             pg_form = qt.QFormLayout()
 
             pg_form.addRow(
-                qt.QLabel('Appetite:  '),
-                qt.QLabel(case[16])
-            )
-            pg_form.addRow(
                 qt.QLabel('Thermals:  '),
                 qt.QLabel(case[17])
             )
             pg_form.addRow(
                 qt.QLabel('Thirst:  '),
                 qt.QLabel(case[18])
+            )
+            pg_form.addRow(
+                qt.QLabel('Tongue:  '),
+                qt.QLabel(case[67])
+            )
+            pg_form.addRow(
+                qt.QLabel('Appetite:  '),
+                qt.QLabel(case[16])
+            )
+            pg_form.addRow(
+                qt.QLabel('Hunger:  '),
+                qt.QLabel(case[22])
+            )
+            pg_form.addRow(
+                qt.QLabel('Desire:  '),
+                qt.QLabel(case[66])
             )
             pg_form.addRow(
                 qt.QLabel('Aversion:  '),
@@ -1222,8 +1234,12 @@ class ViewCase(qt.QDialog):
                 qt.QLabel(case[21])
             )
             pg_form.addRow(
-                qt.QLabel('Hundger:  '),
-                qt.QLabel(case[22])
+                qt.QLabel('Sleep:  '),
+                qt.QLabel(case[26])
+            )
+            pg_form.addRow(
+                qt.QLabel('Dreams:  '),
+                qt.QLabel(case[27])
             )
             pg_form.addRow(
                 qt.QLabel('Stool:  '),
@@ -1236,14 +1252,6 @@ class ViewCase(qt.QDialog):
             pg_form.addRow(
                 qt.QLabel('Sweat:  '),
                 qt.QLabel(case[25])
-            )
-            pg_form.addRow(
-                qt.QLabel('Sleep:  '),
-                qt.QLabel(case[26])
-            )
-            pg_form.addRow(
-                qt.QLabel('Dreams:  '),
-                qt.QLabel(case[27])
             )
             pg_form.addRow(
                 qt.QLabel('Skin:  '),
@@ -1260,6 +1268,14 @@ class ViewCase(qt.QDialog):
             pg_form.addRow(
                 qt.QLabel('Addiction:  '),
                 qt.QLabel(case[31])
+            )
+            pg_form.addRow(
+                qt.QLabel('Speed:  '),
+                qt.QLabel(case[68])
+            )
+            pg_form.addRow(
+                qt.QLabel('Energy:  '),
+                qt.QLabel(case[69])
             )
             pg_form.addRow(
                 qt.QLabel('Smell:  '),
@@ -1280,22 +1296,6 @@ class ViewCase(qt.QDialog):
             pg_form.addRow(
                 qt.QLabel('Hearing:  '),
                 qt.QLabel(case[36])
-            )
-            pg_form.addRow(
-                qt.QLabel('Desire:  '),
-                qt.QLabel(case[66])
-            )
-            pg_form.addRow(
-                qt.QLabel('Tongue:  '),
-                qt.QLabel(case[67])
-            )
-            pg_form.addRow(
-                qt.QLabel('Speed:  '),
-                qt.QLabel(case[68])
-            )
-            pg_form.addRow(
-                qt.QLabel('Energy:  '),
-                qt.QLabel(case[69])
             )
 
             pg_grp.setLayout(pg_form)
