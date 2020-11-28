@@ -22,15 +22,26 @@ class Setup(qt.QDialog):
 
         # Create Buttons
         delete_patients = qt.QPushButton('Delete All Patients')
+        delete_patients.setIcon(gui.QIcon(settings['del-user']))
+        delete_patients.setIconSize(core.QSize(28, 28))
+
         delete_cases = qt.QPushButton('Delete All Cases')
+        delete_cases.setIcon(gui.QIcon(settings['del-case']))
+        delete_cases.setIconSize(core.QSize(28, 28))
+
+        upgrade_db = qt.QPushButton('Upgrade Database')
+        upgrade_db.setIcon(gui.QIcon(settings['db-upgrade']))
+        upgrade_db.setIconSize(core.QSize(28, 28))
 
         # Acc actions
         delete_patients.clicked.connect(self.del_patn)
         delete_cases.clicked.connect(self.del_case)
+        upgrade_db.clicked.connect(self.upgrade_db)
 
         # Add button to layout
         vbox.addWidget(delete_patients)
         vbox.addWidget(delete_cases)
+        vbox.addWidget(upgrade_db)
 
         # Set window layout
         self.setLayout(vbox)
@@ -56,3 +67,11 @@ class Setup(qt.QDialog):
             MsgSucBox('Cases Deleted Successfully')
         else:
             MsgSucBox('Unable to Delete Cases')
+
+    def upgrade_db(self):
+        retcode = self.casedb.upgrade_db()
+
+        if retcode == 0:
+            MsgSucBox('Database Upgraded Successfully')
+        else:
+            MsgSucBox('Database already up to date')

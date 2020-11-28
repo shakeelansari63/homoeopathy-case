@@ -18,5 +18,8 @@
     "edit-user": "img/user-edit.svg",
     "refresh": "img/refresh.svg",
     "setup": "img/setup.svg",
-    "save": "img/save.svg"
+    "save": "img/save.svg",
+    "del-user": "img/del-user.svg",
+    "del-case": "img/del-case.svg",
+    "db-upgrade": "img/db-upgrade.svg"
 }

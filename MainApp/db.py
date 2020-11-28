@@ -18,7 +18,7 @@ class SQLDB:
             rows = curr.fetchall()
         except Exception as e:
             print(e)
-            rows = None
+            rows = []
         finally:
             conn.commit()
             curr.close()
@@ -245,6 +245,7 @@ class CaseDB(SQLDB):
             , SPEED TEXT
             , ENERGY TEXT
             , DD TEXT
+            , SUN TEXT
             )"""
 
         self.run_sql(sql)
@@ -332,7 +333,8 @@ class CaseDB(SQLDB):
                   pg_ton,
                   pg_spd,
                   pg_eng,
-                  fp_dds):
+                  fp_dds,
+                  pg_sun=''):
         """ Save case to Database """
         new_case_id = self.get_max_caseid() + 1
 
@@ -411,9 +413,11 @@ class CaseDB(SQLDB):
             , SPEED
             , ENERGY
             , DD
+            , SUN
         ) VALUES (
              {} ,
              {} ,
+            '{}',
             '{}',
             '{}',
             '{}',
@@ -560,10 +564,13 @@ class CaseDB(SQLDB):
             pg_ton,
             pg_spd,
             pg_eng,
-            fp_dds
+            fp_dds,
+            pg_sun
         )
 
         self.run_sql(sql)
+
+        self.delete_old_cases(pid, new_case_id)
 
         return new_case_id
 
@@ -640,6 +647,7 @@ class CaseDB(SQLDB):
             , SPEED
             , ENERGY
             , DD
+            , SUN
             FROM CASES WHERE PATIENT_ID = {pid}
             AND CASE_ID = ( SELECT MAX(CASE_ID) FROM CASES 
             WHERE PATIENT_ID = {pid})""".format(pid=patient_id)
@@ -724,6 +732,7 @@ class CaseDB(SQLDB):
             , SPEED
             , ENERGY
             , DD
+            , SUN
             FROM CASES WHERE CASE_ID = {cid}""".format(cid=case_id)
 
         case = self.run_sql(sql)
@@ -732,3 +741,40 @@ class CaseDB(SQLDB):
             return case[0]
         else:
             return None
+
+    def delete_old_cases(self, pid, new_case_id):
+        cases = self.get_cases_of_patient(pid)
+
+        for case in cases:
+            if case:
+                caseid = case[0]
+                if caseid != new_case_id:
+                    self.delete_case(caseid)
+
+    def get_cases_of_patient(self, pid):
+        sql = """
+        SELECT CASE_ID FROM CASES
+        WHERE PATIENT_ID = {}
+        """.format(pid)
+
+        return self.run_sql(sql)
+
+    def delete_case(self, caseid):
+        sql = """
+        DELETE FROM CASES
+        WHERE CASE_ID = {}
+        """.format(caseid)
+
+        self.run_sql(sql)
+
+    def upgrade_db(self):
+        sql = """
+        ALTER TABLE CASES
+        ADD COLUMN SUN TEXT;
+        """
+
+        try:
+            self.run_sql(sql)
+            return 0
+        except:
+            return 1

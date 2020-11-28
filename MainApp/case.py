@@ -207,6 +207,11 @@ class Case(qt.QDialog):
         self.pg_thermal.setPlaceholderText('Thermals')
         self.pg_thermal.setTabChangesFocus(True)
         pgform.addRow(qt.QLabel('Thermals:  '), self.pg_thermal)
+        # Sun Sensitivity
+        self.pg_sun = RTextEdit()
+        self.pg_sun.setPlaceholderText('Sun Sensitivity')
+        self.pg_sun.setTabChangesFocus(True)
+        pgform.addRow(qt.QLabel('Sun Sensitivity:  '), self.pg_sun)
         # Thirst
         self.pg_thirst = RTextEdit()
         self.pg_thirst.setPlaceholderText('Thirst')
@@ -593,6 +598,7 @@ class Case(qt.QDialog):
             self.pg_speed.setText(patient_case[68])
             self.pg_energy.setText(patient_case[69])
             self.fp_dd.setText(patient_case[70])
+            self.pg_sun.setText(patient_case[71])
 
             # Create associated complaints
             if patient_case[6] != '' or patient_case[7] != '' or patient_case[8] != '' \
@@ -800,6 +806,7 @@ class Case(qt.QDialog):
             pg_spd = self.pg_speed.getText().replace("'", "''")
             pg_eng = self.pg_energy.getText().replace("'", "''")
             fp_dds = self.fp_dd.getText().replace("'", "''")
+            pg_sun = self.pg_sun.getText().replace("'", "''")
 
             # Save Case
             case_id = self.casedb.save_case(self.pid,
@@ -873,7 +880,8 @@ class Case(qt.QDialog):
                                             pg_ton,
                                             pg_spd,
                                             pg_eng,
-                                            fp_dds)
+                                            fp_dds,
+                                            pg_sun)
 
             case = self.casedb.get_case_by_id(case_id)
 
@@ -1204,6 +1212,10 @@ class ViewCase(qt.QDialog):
             pg_form.addRow(
                 qt.QLabel('Thermals:  '),
                 qt.QLabel(case[17])
+            )
+            pg_form.addRow(
+                qt.QLabel('Sun Sensitivity:  '),
+                qt.QLabel(case[71])
             )
             pg_form.addRow(
                 qt.QLabel('Thirst:  '),
