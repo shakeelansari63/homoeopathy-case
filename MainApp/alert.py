@@ -52,7 +52,7 @@ class MsgCloseConfirm(qt.QMessageBox):
         self.no_act = no_act
         self.cancel_act = cancel_act
 
-    def confirm(self):
+        # Take action as per User decision
         decision = self.exec_()
 
         if decision == qt.QMessageBox.Yes:

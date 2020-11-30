@@ -902,7 +902,7 @@ class Case(qt.QDialog):
         if self.case_saved:
             event.accept()
         else:
-            MsgCloseConfirm(self.save_case, self.close, event.ignore).confirm()
+            MsgCloseConfirm(self.save_case, event.accept, event.ignore)
 
 
 class ViewCase(qt.QDialog):
