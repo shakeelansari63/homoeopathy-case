@@ -85,3 +85,9 @@ ENV/
 # BUild and Dist directories
 build
 dist
+
+# Final Packages
+*.tar.gz
+*.tar
+*.gz
+*.zip
