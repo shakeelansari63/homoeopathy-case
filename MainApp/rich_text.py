@@ -75,6 +75,14 @@ class RTextEdit(qt.QWidget):
                           self.green.sizeHint().height())
         self.green.setFlat(True)
 
+        # Remove Tab focus from Buttons
+        self.bold.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
+        self.italic.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
+        self.underline.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
+        self.red.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
+        self.blue.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
+        self.green.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
+
         # Button Actions
         self.bold.clicked.connect(self.__bold_text)
         self.italic.clicked.connect(self.__italic_text)
