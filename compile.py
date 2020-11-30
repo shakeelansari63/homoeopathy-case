@@ -8,6 +8,11 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 
 def compile_package(packagename):
+    # App Path
+    appth = os.path.dirname(__file__)
+
+    # os.chdir(appth)
+
     # Cleanup existing build and dist dirs
     if os.path.exists('build/'):
         shutil.rmtree('build/')
@@ -18,10 +23,11 @@ def compile_package(packagename):
     if os.path.exists('__pycache__/'):
         shutil.rmtree('__pycache__/')
 
-    for pyfile in os.listdir('MainApp/'):
+    for pyfile in os.listdir(os.path.join(appth, 'MainApp/')):
         if pyfile.endswith('.py'):
             # print(pyfile)
-            compile('MainApp/' + pyfile, 'pycs/' + pyfile + 'c')
+            compile(os.path.join(appth, 'MainApp/') + pyfile,
+                    os.path.join(appth, 'pycs/') + pyfile + 'c')
 
     # For importing qtmodern theme
     import qtmodern
@@ -30,27 +36,28 @@ def compile_package(packagename):
     # Set Logo File
     platformid = sys.platform
     if platformid == 'linux' or platformid == 'darwin':
-        logofile = "logo.svg"
+        logofile = os.path.join(appth, "logo.svg")
         sep = ':'
     else:
-        logofile = "logo.ico"
+        logofile = os.path.join(appth, "logo.ico")
         sep = ';'
 
     pybuild([
-        "main.py",
+        "{}/main.py".format(appth),
         "--clean",
         "--onedir",
         "--name={}".format(packagename),
-        "--add-data=./pycs{}./MainApp".format(sep),
-        "--add-data=./MainApp/img{}./MainApp/img".format(sep),
-        "--add-data=./MainApp/resources{}./MainApp/resources".format(sep),
+        "--add-data={}/pycs{}./MainApp".format(appth, sep),
+        "--add-data={}/MainApp/img{}./MainApp/img".format(appth, sep),
+        "--add-data={}/MainApp/resources{}./MainApp/resources".format(
+            appth, sep),
         "--add-data={}{}./qtmodern".format(qtm_path, sep),
         "--windowed",
         "--icon={}".format(logofile)
     ])
 
     # Cleanup Temporary Files
-    shutil.rmtree('pycs/')
+    shutil.rmtree(os.path.join(appth, 'pycs/'))
 
     os.remove('{}.spec'.format(packagename))
 
@@ -58,12 +65,12 @@ def compile_package(packagename):
     # platformid = 'win32'
 
     # Go to Dist Directory
-    os.chdir('./dist/')
+    os.chdir('dist/')
 
     # Package in tar File
     target_dir = '{}'.format(packagename)
     if platformid == 'linux' or platformid == 'darwin':
-        with tarfile.open('{}.tar.gz'.format(target_dir), 'w:gz') as tar:
+        with tarfile.open('{}.tar.gz'.format(os.path.join(appth, packagename)), 'w:gz') as tar:
             tar.add(target_dir, arcname=packagename)
 
     # Package in Zip File
