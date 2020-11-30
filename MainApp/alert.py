@@ -23,7 +23,7 @@ class MsgSucBox(qt.QMessageBox):
     def __init__(self, text):
         super().__init__()
 
-        self.setWindowTitle('Error')
+        self.setWindowTitle('Success')
         self.setBaseSize(core.QSize(400, 200))
         self.setIcon(qt.QMessageBox.Information)
         self.setText(text)
