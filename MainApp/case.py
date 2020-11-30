@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets as qt
 from PyQt5 import QtGui as gui
 from PyQt5 import QtCore as core
 from .db import PatientDB, CaseDB
-from .alert import MsgErrBox, MsgSucBox
+from .alert import MsgErrBox, MsgSucBox, MsgCloseConfirm
 from .setting import settings
 from .separator import QHSeperationLine
 from datetime import date
@@ -22,6 +22,9 @@ class Case(qt.QDialog):
 
         # Set Stylesheet
         self.setStyleSheet(settings["theme"])
+
+        # Variable to check if case is saved
+        self.case_saved = False
 
     def create_case(self, patient_id=None):
         self.pid = patient_id
@@ -889,10 +892,17 @@ class Case(qt.QDialog):
             # print(case)
 
             if case:
+                self.case_saved = True
                 self.close()
                 MsgSucBox('Case Saved Successfully')
             else:
                 MsgErrBox('Unable to Save Case')
+
+    def closeEvent(self, event):
+        if self.case_saved:
+            event.accept()
+        else:
+            MsgCloseConfirm(self.save_case, self.close, event.ignore).confirm()
 
 
 class ViewCase(qt.QDialog):
