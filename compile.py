@@ -71,12 +71,12 @@ def compile_package(packagename):
     # Package in tar File
     target_dir = '{}'.format(packagename)
     if platformid == 'linux' or platformid == 'darwin':
-        with tarfile.open('{}.tar.gz'.format(os.path.join(appth, packagename)), 'w:gz') as tar:
+        with tarfile.open('{}-{}.tar.gz'.format(os.path.join(appth, packagename), platformid), 'w:gz') as tar:
             tar.add(target_dir, arcname=packagename)
 
     # Package in Zip File
     else:
-        with ZipFile('{}.zip'.format(target_dir), 'w', ZIP_DEFLATED) as ziph:
+        with ZipFile('{}-windows.zip'.format(target_dir), 'w', ZIP_DEFLATED) as ziph:
             for root, _, files in os.walk(target_dir):
                 for file in files:
                     ziph.write(os.path.join(root, file))
