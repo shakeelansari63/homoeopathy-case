@@ -9,7 +9,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 def compile_package(packagename):
     # App Path
-    appth = os.path.dirname(__file__)
+    appth = os.path.dirname(os.path.abspath(__file__))
 
     # os.chdir(appth)
 
@@ -31,7 +31,7 @@ def compile_package(packagename):
 
     # For importing qtmodern theme
     import qtmodern
-    qtm_path = os.path.dirname(qtmodern.__file__)
+    qtm_path = os.path.dirname(os.path.abspath(qtmodern.__file__))
 
     # Set Logo File
     platformid = sys.platform
@@ -45,13 +45,14 @@ def compile_package(packagename):
     pybuild([
         "{}/main.py".format(appth),
         "--clean",
+        "--log-level=INFO",
         "--onedir",
         "--name={}".format(packagename),
         "--add-data={}/pycs{}./MainApp".format(appth, sep),
         "--add-data={}/MainApp/img{}./MainApp/img".format(appth, sep),
         "--add-data={}/MainApp/resources{}./MainApp/resources".format(
             appth, sep),
-        "--add-data={}{}./qtmodern".format(qtm_path, sep),
+        "--add-data={}/resources{}./qtmodern/resources".format(qtm_path, sep),
         "--windowed",
         "--icon={}".format(logofile)
     ])
