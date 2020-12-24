@@ -314,30 +314,50 @@ class Case(qt.QDialog):
         # Sensitivity
         snsrow = qt.QHBoxLayout()
         # Smell
+        pg_smell_grp = qt.QGroupBox('Smell')
+        pg_smell_grp_layout = qt.QVBoxLayout()
         self.pg_smell = RTextEdit()
         self.pg_smell.setPlaceholderText('Smell')
         self.pg_smell.setTabChangesFocus(True)
-        snsrow.addWidget(self.pg_smell)
+        pg_smell_grp_layout.addWidget(self.pg_smell)
+        pg_smell_grp.setLayout(pg_smell_grp_layout)
+        snsrow.addWidget(pg_smell_grp)
         # Taste
+        pg_taste_grp = qt.QGroupBox('Taste')
+        pg_taste_grp_layout = qt.QVBoxLayout()
         self.pg_taste = RTextEdit()
         self.pg_taste.setPlaceholderText('Taste')
         self.pg_taste.setTabChangesFocus(True)
-        snsrow.addWidget(self.pg_taste)
+        pg_taste_grp_layout.addWidget(self.pg_taste)
+        pg_taste_grp.setLayout(pg_taste_grp_layout)
+        snsrow.addWidget(pg_taste_grp)
         # Touch
+        pg_touch_grp = qt.QGroupBox('Touch')
+        pg_touch_grp_layout = qt.QVBoxLayout()
         self.pg_touch = RTextEdit()
         self.pg_touch.setPlaceholderText('Touch')
         self.pg_touch.setTabChangesFocus(True)
-        snsrow.addWidget(self.pg_touch)
+        pg_touch_grp_layout.addWidget(self.pg_touch)
+        pg_touch_grp.setLayout(pg_touch_grp_layout)
+        snsrow.addWidget(pg_touch_grp)
         # Vision
+        pg_vision_grp = qt.QGroupBox('Vision')
+        pg_vision_grp_layout = qt.QVBoxLayout()
         self.pg_vision = RTextEdit()
         self.pg_vision.setPlaceholderText('Vision')
         self.pg_vision.setTabChangesFocus(True)
-        snsrow.addWidget(self.pg_vision)
+        pg_vision_grp_layout.addWidget(self.pg_vision)
+        pg_vision_grp.setLayout(pg_vision_grp_layout)
+        snsrow.addWidget(pg_vision_grp)
         # Hearning
+        pg_hearing_grp = qt.QGroupBox('Hearning')
+        pg_hearing_grp_layout = qt.QVBoxLayout()
         self.pg_hearing = RTextEdit()
         self.pg_hearing.setPlaceholderText('Hearning')
         self.pg_hearing.setTabChangesFocus(True)
-        snsrow.addWidget(self.pg_hearing)
+        pg_hearing_grp_layout.addWidget(self.pg_hearing)
+        pg_hearing_grp.setLayout(pg_hearing_grp_layout)
+        snsrow.addWidget(pg_hearing_grp)
         pgform.addRow(qt.QLabel('Sensitivity:  '), snsrow)
         # Add from to group
         physical_general_grp.setLayout(pgform)
@@ -359,91 +379,11 @@ class Case(qt.QDialog):
         # Mind and Disposition
         mind_disposition_grp = qt.QGroupBox('Mind and Disposition')
         mdform = qt.QFormLayout()
-        # Childhood
-        self.md_childhood = RTextEdit()
-        self.md_childhood.setPlaceholderText('Childhood')
-        self.md_childhood.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Childhood:  '), self.md_childhood)
-        # Education
-        self.md_education = RTextEdit()
-        self.md_education.setPlaceholderText('Education')
-        self.md_education.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Education:  '), self.md_education)
-        # Marriage
-        self.md_marriage = RTextEdit()
-        self.md_marriage.setPlaceholderText('Marriage')
-        self.md_marriage.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Marriage:  '), self.md_marriage)
-        # Children
-        self.md_children = RTextEdit()
-        self.md_children.setPlaceholderText('Children')
-        self.md_children.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Children:  '), self.md_children)
-        # Expenses
-        self.md_expenses = RTextEdit()
-        self.md_expenses.setPlaceholderText('Expenses')
-        self.md_expenses.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Expenses:  '), self.md_expenses)
-        # Religiousness
-        self.md_religious = RTextEdit()
-        self.md_religious.setPlaceholderText('Religiousness')
-        self.md_religious.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Religiousness:  '), self.md_religious)
-        # Cleanliness
-        self.md_cleanliness = RTextEdit()
-        self.md_cleanliness.setPlaceholderText('Cleanliness')
-        self.md_cleanliness.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Cleanliness:  '), self.md_cleanliness)
-        # Sympathy
-        self.md_sympathy = RTextEdit()
-        self.md_sympathy.setPlaceholderText('Sympathy')
-        self.md_sympathy.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Sympathy:  '), self.md_sympathy)
-        # Anger
-        self.md_anger = RTextEdit()
-        self.md_anger.setPlaceholderText('Anger')
-        self.md_anger.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Anger:  '), self.md_anger)
-        # Destruction
-        self.md_destruction = RTextEdit()
-        self.md_destruction.setPlaceholderText('Destruction')
-        self.md_destruction.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Destruction:  '), self.md_destruction)
-        # Sexual History
-        self.md_sexualhist = RTextEdit()
-        self.md_sexualhist.setPlaceholderText('Sexual History')
-        self.md_sexualhist.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Sexual History:  '), self.md_sexualhist)
-        # Future Plans
-        self.md_futureplans = RTextEdit()
-        self.md_futureplans.setPlaceholderText('Future Plans')
-        self.md_futureplans.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Future Plans:  '), self.md_futureplans)
-        # Business
-        self.md_business = RTextEdit()
-        self.md_business.setPlaceholderText('Business')
-        self.md_business.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Business:  '), self.md_business)
-        # Weeping
-        self.md_weeping = RTextEdit()
-        self.md_weeping.setPlaceholderText('Weeping')
-        self.md_weeping.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Weeping:  '), self.md_weeping)
-        # During Illness
-        self.md_illness = RTextEdit()
-        self.md_illness.setPlaceholderText('During Illness')
-        self.md_illness.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('During Illness:  '), self.md_illness)
-        # Achievements
-        self.md_achievements = RTextEdit()
-        self.md_achievements.setPlaceholderText('Achievements')
-        self.md_achievements.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('Achievements:  '), self.md_achievements)
-        # During Holidays
-        self.md_holidays = RTextEdit()
-        self.md_holidays.setPlaceholderText('During Holidays')
-        self.md_holidays.setTabChangesFocus(True)
-        mdform.addRow(qt.QLabel('During Holidays:  '), self.md_holidays)
+        self.md_all = RTextEdit()
+        self.md_all.setPlaceholderText('Mind and Disposition')
+        self.md_all.setTabChangesFocus(True)
+        self.md_all.setHeight(450)
+        mdform.addRow(qt.QLabel('Mind and Disposition:  '), self.md_all)
         # Add form to Group
         mind_disposition_grp.setLayout(mdform)
         # Add group to Vbox
@@ -568,40 +508,24 @@ class Case(qt.QDialog):
             self.pg_vision.setText(patient_case[35])
             self.pg_hearing.setText(patient_case[36])
             self.fam_hist.setText(patient_case[37])
-            self.md_childhood.setText(patient_case[38])
-            self.md_education.setText(patient_case[39])
-            self.md_marriage.setText(patient_case[40])
-            self.md_children.setText(patient_case[41])
-            self.md_expenses.setText(patient_case[42])
-            self.md_religious.setText(patient_case[43])
-            self.md_cleanliness.setText(patient_case[44])
-            self.md_sympathy.setText(patient_case[45])
-            self.md_anger.setText(patient_case[46])
-            self.md_destruction.setText(patient_case[47])
-            self.md_sexualhist.setText(patient_case[48])
-            self.md_futureplans.setText(patient_case[49])
-            self.md_business.setText(patient_case[50])
-            self.md_weeping.setText(patient_case[51])
-            self.md_illness.setText(patient_case[52])
-            self.md_achievements.setText(patient_case[53])
-            self.md_holidays.setText(patient_case[54])
-            self.ch_teething.setText(patient_case[55])
-            self.ch_crawling.setText(patient_case[56])
-            self.ch_walking.setText(patient_case[57])
-            self.ch_speaking.setText(patient_case[58])
-            self.ch_vaccine.setText(patient_case[59])
-            self.ch_headcrown.setText(patient_case[60])
-            self.cur_med.setText(patient_case[61])
-            self.accute.setText(patient_case[62])
-            self.fp_totality.setText(patient_case[63])
-            self.fp_rubrics.setText(patient_case[64])
-            self.fp_prescription.setText(patient_case[65])
-            self.pg_desire.setText(patient_case[66])
-            self.pg_tongue.setText(patient_case[67])
-            self.pg_speed.setText(patient_case[68])
-            self.pg_energy.setText(patient_case[69])
-            self.fp_dd.setText(patient_case[70])
-            self.pg_sun.setText(patient_case[71])
+            self.md_all.setText(patient_case[38])
+            self.ch_teething.setText(patient_case[39])
+            self.ch_crawling.setText(patient_case[40])
+            self.ch_walking.setText(patient_case[41])
+            self.ch_speaking.setText(patient_case[42])
+            self.ch_vaccine.setText(patient_case[43])
+            self.ch_headcrown.setText(patient_case[44])
+            self.cur_med.setText(patient_case[45])
+            self.accute.setText(patient_case[46])
+            self.fp_totality.setText(patient_case[47])
+            self.fp_rubrics.setText(patient_case[48])
+            self.fp_prescription.setText(patient_case[49])
+            self.pg_desire.setText(patient_case[50])
+            self.pg_tongue.setText(patient_case[51])
+            self.pg_speed.setText(patient_case[52])
+            self.pg_energy.setText(patient_case[53])
+            self.fp_dd.setText(patient_case[54])
+            self.pg_sun.setText(patient_case[55])
 
             # Create associated complaints
             if patient_case[6] != '' or patient_case[7] != '' or patient_case[8] != '' \
@@ -776,23 +700,7 @@ class Case(qt.QDialog):
             pg_vis = self.pg_vision.getText().replace("'", "''")
             pg_hrn = self.pg_hearing.getText().replace("'", "''")
             famhst = self.fam_hist.getText().replace("'", "''")
-            md_chd = self.md_childhood.getText().replace("'", "''")
-            md_edu = self.md_education.getText().replace("'", "''")
-            md_mar = self.md_marriage.getText().replace("'", "''")
-            md_crn = self.md_children.getText().replace("'", "''")
-            md_exp = self.md_expenses.getText().replace("'", "''")
-            md_rlg = self.md_religious.getText().replace("'", "''")
-            md_cln = self.md_cleanliness.getText().replace("'", "''")
-            md_sym = self.md_sympathy.getText().replace("'", "''")
-            md_agr = self.md_anger.getText().replace("'", "''")
-            md_dst = self.md_destruction.getText().replace("'", "''")
-            md_sxh = self.md_sexualhist.getText().replace("'", "''")
-            md_fpl = self.md_futureplans.getText().replace("'", "''")
-            md_bsn = self.md_business.getText().replace("'", "''")
-            md_wpn = self.md_weeping.getText().replace("'", "''")
-            md_ill = self.md_illness.getText().replace("'", "''")
-            md_ach = self.md_achievements.getText().replace("'", "''")
-            md_hld = self.md_holidays.getText().replace("'", "''")
+            md_all = self.md_all.getText().replace("'", "''")
             ch_tth = self.ch_teething.getText().replace("'", "''")
             ch_crl = self.ch_crawling.getText().replace("'", "''")
             ch_wlk = self.ch_walking.getText().replace("'", "''")
@@ -851,23 +759,7 @@ class Case(qt.QDialog):
                                             pg_vis,
                                             pg_hrn,
                                             famhst,
-                                            md_chd,
-                                            md_edu,
-                                            md_mar,
-                                            md_crn,
-                                            md_exp,
-                                            md_rlg,
-                                            md_cln,
-                                            md_sym,
-                                            md_agr,
-                                            md_dst,
-                                            md_sxh,
-                                            md_fpl,
-                                            md_bsn,
-                                            md_wpn,
-                                            md_ill,
-                                            md_ach,
-                                            md_hld,
+                                            md_all,
                                             ch_tth,
                                             ch_crl,
                                             ch_wlk,
@@ -1208,27 +1100,27 @@ class ViewCase(qt.QDialog):
 
                 ch_form.addRow(
                     qt.QLabel('Teething:  '),
-                    qt.QLabel(case[55])
+                    qt.QLabel(case[39])
                 )
                 ch_form.addRow(
                     qt.QLabel('Crawling:  '),
-                    qt.QLabel(case[56])
+                    qt.QLabel(case[40])
                 )
                 ch_form.addRow(
                     qt.QLabel('Walking:  '),
-                    qt.QLabel(case[57])
+                    qt.QLabel(case[41])
                 )
                 ch_form.addRow(
                     qt.QLabel('Speaking:  '),
-                    qt.QLabel(case[58])
+                    qt.QLabel(case[42])
                 )
                 ch_form.addRow(
                     qt.QLabel('Vaccine:  '),
-                    qt.QLabel(case[59])
+                    qt.QLabel(case[43])
                 )
                 ch_form.addRow(
                     qt.QLabel('Head and Crown:  '),
-                    qt.QLabel(case[60])
+                    qt.QLabel(case[44])
                 )
 
                 ch_grp.setLayout(ch_form)
@@ -1244,7 +1136,7 @@ class ViewCase(qt.QDialog):
             )
             pg_form.addRow(
                 qt.QLabel('Sun Sensitivity:  '),
-                qt.QLabel(case[71])
+                qt.QLabel(case[55])
             )
             pg_form.addRow(
                 qt.QLabel('Thirst:  '),
@@ -1252,7 +1144,7 @@ class ViewCase(qt.QDialog):
             )
             pg_form.addRow(
                 qt.QLabel('Tongue:  '),
-                qt.QLabel(case[67])
+                qt.QLabel(case[51])
             )
             pg_form.addRow(
                 qt.QLabel('Appetite:  '),
@@ -1264,7 +1156,7 @@ class ViewCase(qt.QDialog):
             )
             pg_form.addRow(
                 qt.QLabel('Desire:  '),
-                qt.QLabel(case[66])
+                qt.QLabel(case[50])
             )
             pg_form.addRow(
                 qt.QLabel('Aversion:  '),
@@ -1316,11 +1208,11 @@ class ViewCase(qt.QDialog):
             )
             pg_form.addRow(
                 qt.QLabel('Speed:  '),
-                qt.QLabel(case[68])
+                qt.QLabel(case[52])
             )
             pg_form.addRow(
                 qt.QLabel('Energy:  '),
-                qt.QLabel(case[69])
+                qt.QLabel(case[53])
             )
             pg_form.addRow(
                 qt.QLabel('Smell:  '),
@@ -1363,72 +1255,8 @@ class ViewCase(qt.QDialog):
             md_form = qt.QFormLayout()
 
             md_form.addRow(
-                qt.QLabel('Childhood:  '),
+                qt.QLabel('Mind and Disposition:  '),
                 qt.QLabel(case[38])
-            )
-            md_form.addRow(
-                qt.QLabel('Education:  '),
-                qt.QLabel(case[39])
-            )
-            md_form.addRow(
-                qt.QLabel('Marriage:  '),
-                qt.QLabel(case[40])
-            )
-            md_form.addRow(
-                qt.QLabel('Children:  '),
-                qt.QLabel(case[41])
-            )
-            md_form.addRow(
-                qt.QLabel('Expenses:  '),
-                qt.QLabel(case[42])
-            )
-            md_form.addRow(
-                qt.QLabel('Religious:  '),
-                qt.QLabel(case[43])
-            )
-            md_form.addRow(
-                qt.QLabel('Cleanliness:  '),
-                qt.QLabel(case[44])
-            )
-            md_form.addRow(
-                qt.QLabel('Sympathy:  '),
-                qt.QLabel(case[45])
-            )
-            md_form.addRow(
-                qt.QLabel('Anger:  '),
-                qt.QLabel(case[46])
-            )
-            md_form.addRow(
-                qt.QLabel('Destruction:  '),
-                qt.QLabel(case[47])
-            )
-            md_form.addRow(
-                qt.QLabel('Sexual History:  '),
-                qt.QLabel(case[48])
-            )
-            md_form.addRow(
-                qt.QLabel('Future Plans:  '),
-                qt.QLabel(case[49])
-            )
-            md_form.addRow(
-                qt.QLabel('Business:  '),
-                qt.QLabel(case[50])
-            )
-            md_form.addRow(
-                qt.QLabel('Weeping:  '),
-                qt.QLabel(case[51])
-            )
-            md_form.addRow(
-                qt.QLabel('During Illness:  '),
-                qt.QLabel(case[52])
-            )
-            md_form.addRow(
-                qt.QLabel('Achievements:  '),
-                qt.QLabel(case[53])
-            )
-            md_form.addRow(
-                qt.QLabel('During Holidays:  '),
-                qt.QLabel(case[54])
             )
 
             md_grp.setLayout(md_form)
@@ -1440,7 +1268,7 @@ class ViewCase(qt.QDialog):
 
             cm_form.addRow(
                 qt.QLabel('Current Medications:  '),
-                qt.QLabel(case[61])
+                qt.QLabel(case[45])
             )
 
             cm_grp.setLayout(cm_form)
@@ -1452,7 +1280,7 @@ class ViewCase(qt.QDialog):
 
             at_form.addRow(
                 qt.QLabel('Accutes:  '),
-                qt.QLabel(case[62])
+                qt.QLabel(case[46])
             )
 
             at_grp.setLayout(at_form)
@@ -1464,19 +1292,19 @@ class ViewCase(qt.QDialog):
 
             fp_form.addRow(
                 qt.QLabel('Totality:  '),
-                qt.QLabel(case[63])
+                qt.QLabel(case[47])
             )
             fp_form.addRow(
                 qt.QLabel('Rubrics:  '),
-                qt.QLabel(case[64])
+                qt.QLabel(case[48])
             )
             fp_form.addRow(
                 qt.QLabel('Prescription + Potency:  '),
-                qt.QLabel(case[65])
+                qt.QLabel(case[49])
             )
             fp_form.addRow(
                 qt.QLabel('D/D:  '),
-                qt.QLabel(case[70])
+                qt.QLabel(case[54])
             )
 
             fp_grp.setLayout(fp_form)

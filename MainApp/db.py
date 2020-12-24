@@ -211,23 +211,7 @@ class CaseDB(SQLDB):
             , VISION TEXT
             , HEARING TEXT
             , FAMILY_HISTORY TEXT
-            , CHILDHOOD TEXT
-            , EDUCATION TEXT
-            , MARRIAGE TEXT
-            , CHILDREN TEXT
-            , EXPENSES TEXT
-            , RELIGIOUS TEXT
-            , CLEANLINESS TEXT
-            , SYMPATHY TEXT
-            , ANGER TEXT
-            , DESTRUCTION TEXT
-            , SEXUAL_HISTORY TEXT
-            , FUTURE_PLANS TEXT
-            , BUSINESS TEXT
-            , WEEPING TEXT
-            , ILLNESS TEXT
-            , ACHIEVEMENTS TEXT
-            , HOLIDAYS TEXT
+            , MIND_DISPOSITION TEXT
             , TEETHING TEXT
             , CRAWLING TEXT
             , WALKING TEXT
@@ -301,23 +285,7 @@ class CaseDB(SQLDB):
                   pg_vis,
                   pg_hrn,
                   famhst,
-                  md_chd,
-                  md_edu,
-                  md_mar,
-                  md_crn,
-                  md_exp,
-                  md_rlg,
-                  md_cln,
-                  md_sym,
-                  md_agr,
-                  md_dst,
-                  md_sxh,
-                  md_fpl,
-                  md_bsn,
-                  md_wpn,
-                  md_ill,
-                  md_ach,
-                  md_hld,
+                  md_all,
                   ch_tth,
                   ch_crl,
                   ch_wlk,
@@ -379,23 +347,7 @@ class CaseDB(SQLDB):
             , VISION
             , HEARING
             , FAMILY_HISTORY
-            , CHILDHOOD
-            , EDUCATION
-            , MARRIAGE
-            , CHILDREN
-            , EXPENSES
-            , RELIGIOUS
-            , CLEANLINESS
-            , SYMPATHY
-            , ANGER
-            , DESTRUCTION
-            , SEXUAL_HISTORY
-            , FUTURE_PLANS
-            , BUSINESS
-            , WEEPING
-            , ILLNESS
-            , ACHIEVEMENTS
-            , HOLIDAYS
+            , MIND_DISPOSITION
             , TEETHING
             , CRAWLING
             , WALKING
@@ -417,22 +369,6 @@ class CaseDB(SQLDB):
         ) VALUES (
              {} ,
              {} ,
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
-            '{}',
             '{}',
             '{}',
             '{}',
@@ -531,23 +467,7 @@ class CaseDB(SQLDB):
             pg_vis,
             pg_hrn,
             famhst,
-            md_chd,
-            md_edu,
-            md_mar,
-            md_crn,
-            md_exp,
-            md_rlg,
-            md_cln,
-            md_sym,
-            md_agr,
-            md_dst,
-            md_sxh,
-            md_fpl,
-            md_bsn,
-            md_wpn,
-            md_ill,
-            md_ach,
-            md_hld,
+            md_all,
             ch_tth,
             ch_crl,
             ch_wlk,
@@ -614,23 +534,7 @@ class CaseDB(SQLDB):
             , VISION
             , HEARING
             , FAMILY_HISTORY
-            , CHILDHOOD
-            , EDUCATION
-            , MARRIAGE
-            , CHILDREN
-            , EXPENSES
-            , RELIGIOUS
-            , CLEANLINESS
-            , SYMPATHY
-            , ANGER
-            , DESTRUCTION
-            , SEXUAL_HISTORY
-            , FUTURE_PLANS
-            , BUSINESS
-            , WEEPING
-            , ILLNESS
-            , ACHIEVEMENTS
-            , HOLIDAYS
+            , MIND_DISPOSITION
             , TEETHING
             , CRAWLING
             , WALKING
@@ -699,23 +603,7 @@ class CaseDB(SQLDB):
             , VISION
             , HEARING
             , FAMILY_HISTORY
-            , CHILDHOOD
-            , EDUCATION
-            , MARRIAGE
-            , CHILDREN
-            , EXPENSES
-            , RELIGIOUS
-            , CLEANLINESS
-            , SYMPATHY
-            , ANGER
-            , DESTRUCTION
-            , SEXUAL_HISTORY
-            , FUTURE_PLANS
-            , BUSINESS
-            , WEEPING
-            , ILLNESS
-            , ACHIEVEMENTS
-            , HOLIDAYS
+            , MIND_DISPOSITION
             , TEETHING
             , CRAWLING
             , WALKING
@@ -768,13 +656,18 @@ class CaseDB(SQLDB):
         self.run_sql(sql)
 
     def upgrade_db(self):
-        sql = """
-        ALTER TABLE CASES
-        ADD COLUMN SUN TEXT;
-        """
+        sqls = ["""ALTER TABLE CASES
+        ADD COLUMN SUN TEXT;""", 
+        """ALTER TABLE CASES
+        ADD COLUMN MIND_DISPOSITION TEXT;"""]
 
-        try:
-            self.run_sql(sql)
-            return 0
-        except:
-            return 1
+        retrn_code = 0
+
+        for sql in sqls:
+            try:
+                self.run_sql(sql)
+            except Exception as e:
+                retrn_code = 1
+                print(e)
+        
+        return retrn_code

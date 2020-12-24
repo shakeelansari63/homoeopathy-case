@@ -169,3 +169,6 @@ class RTextEdit(qt.QWidget):
 
     def setTabChangesFocus(self, focus):
         self.editor.setTabChangesFocus(focus)
+
+    def setHeight(self, height):
+        self.editor.setMinimumHeight(height)
