@@ -11,6 +11,8 @@
     "redicon": "img/redbox.svg",
     "blueicon": "img/bluebox.svg",
     "greenicon": "img/greenbox.svg",
+    "whiteicon": "img/whitebox.svg",
+    "blackicon": "img/blackbox.svg",
     "edit-case": "img/edit-case.svg",
     "see-case": "img/see-case.svg",
     "save-icon": "img/save.svg",
@@ -21,5 +23,7 @@
     "save": "img/save.svg",
     "del-user": "img/del-user.svg",
     "del-case": "img/del-case.svg",
-    "db-upgrade": "img/db-upgrade.svg"
+    "db-upgrade": "img/db-upgrade.svg",
+    "del-set": "img/del-set.svg",
+    "MDQ": "M/D Questions"
 }

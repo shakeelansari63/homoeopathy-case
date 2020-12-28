@@ -17,6 +17,7 @@ class SQLDB:
             curr.execute(sql)
             rows = curr.fetchall()
         except Exception as e:
+            print(sql)
             print(e)
             rows = []
         finally:
@@ -671,3 +672,46 @@ class CaseDB(SQLDB):
                 print(e)
         
         return retrn_code
+
+class Options(SQLDB):
+    def create_table(self):
+        sql = """CREATE TABLE IF NOT EXISTS OPTIONS (
+            OPTION_KEY TEXT NOT NULL PRIMARY KEY,
+            OPTION_VAL TEXT
+        )"""
+
+        self.run_sql(sql)
+
+    def drop_table(self):
+        sql = """DROP TABLE OPTIONS"""
+
+        self.run_sql(sql)
+
+    def get_option(self, key):
+        sql = """SELECT OPTION_VAL
+            FROM OPTIONS WHERE OPTION_KEY = '{}'
+        """.format(key.replace("'","''"))
+
+        value = self.run_sql(sql)
+        if value:
+            return value[0][0]
+        else:
+            return ''
+
+    def set_option(self, key, val):
+        sql = """SELECT 1 FROM OPTIONS
+            WHERE OPTION_KEY = '{}'
+        """.format(key.replace("'","''"))
+
+        key_exist = self.run_sql(sql)
+
+        if key_exist:
+            sql2 = """UPDATE OPTIONS
+                SET OPTION_VAL = '{}'
+                WHERE OPTION_KEY = '{}'""".format(val.replace("'","''"), key.replace("'","''"))
+        else:
+            sql2 = """INSERT INTO OPTIONS
+                VALUES ('{}', '{}')""".format(key.replace("'","''"), val.replace("'","''"))
+
+        self.run_sql(sql2)
+

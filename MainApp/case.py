@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets as qt
 from PyQt5 import QtGui as gui
 from PyQt5 import QtCore as core
-from .db import PatientDB, CaseDB
+from .db import PatientDB, CaseDB, Options
 from .alert import MsgErrBox, MsgSucBox, MsgCloseConfirm
 from .setting import settings
 from .separator import QHSeperationLine
@@ -19,6 +19,7 @@ class Case(qt.QDialog):
         # Db Connection
         self.sqldb = PatientDB()
         self.casedb = CaseDB()
+        self.optdb = Options()
 
         # Set Stylesheet
         self.setStyleSheet(settings["theme"])
@@ -383,6 +384,7 @@ class Case(qt.QDialog):
         self.md_all.setPlaceholderText('Mind and Disposition')
         self.md_all.setTabChangesFocus(True)
         self.md_all.setHeight(450)
+        self.md_all.setText(self.optdb.get_option(settings["MDQ"]))
         mdform.addRow(qt.QLabel('Mind and Disposition:  '), self.md_all)
         # Add form to Group
         mind_disposition_grp.setLayout(mdform)
@@ -538,6 +540,10 @@ class Case(qt.QDialog):
                 ac_alp = patient_case[11].split('|')
                 for asso_compl in zip(ac_loc, ac_sen, ac_ame, ac_agg, ac_con, ac_alp):
                     self.add_associated_complaint(*asso_compl)
+
+            # Reset Mind and Disposition to default questions if nothing saved in actual case
+            if self.md_all.getPlainText() == '':
+                self.md_all.setText(self.optdb.get_option(settings["MDQ"]))
 
     def add_associated_complaint(self, ac_loc=None, ac_sen=None, ac_ame=None, ac_agg=None, ac_con=None, ac_alp=None):
         ac_id = len(self.associated_complaint_list.keys())

@@ -32,7 +32,10 @@ class RTextEdit(qt.QWidget):
         self.editor.setAcceptRichText(True)
         self.editor.setMinimumHeight(120)
         self.vbox.addWidget(self.editor)
-        self.default_color = self.editor.textColor()
+
+        # Set default color for text
+        self.default_color = gui.QColor(242, 242, 242)
+        self.editor.setTextColor(self.default_color)
 
         # Buttons
         self.bold = qt.QPushButton('')
@@ -42,6 +45,8 @@ class RTextEdit(qt.QWidget):
         self.red = qt.QPushButton('')
         self.blue = qt.QPushButton('')
         self.green = qt.QPushButton('')
+        self.white = qt.QPushButton('')
+        self.black = qt.QPushButton('')
 
         # Button Config
         self.bold.setIcon(gui.QIcon(settings['boldicon']))
@@ -74,6 +79,16 @@ class RTextEdit(qt.QWidget):
         self.green.resize(self.green.sizeHint().width(),
                           self.green.sizeHint().height())
         self.green.setFlat(True)
+        self.white.setIcon(gui.QIcon(settings['whiteicon']))
+        self.white.setIconSize(core.QSize(14, 14))
+        self.white.resize(self.white.sizeHint().width(),
+                          self.white.sizeHint().height())
+        self.white.setFlat(True)
+        self.black.setIcon(gui.QIcon(settings['blackicon']))
+        self.black.setIconSize(core.QSize(14, 14))
+        self.black.resize(self.black.sizeHint().width(),
+                          self.black.sizeHint().height())
+        self.black.setFlat(True)
 
         # Remove Tab focus from Buttons
         self.bold.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
@@ -82,6 +97,8 @@ class RTextEdit(qt.QWidget):
         self.red.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
         self.blue.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
         self.green.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
+        self.white.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
+        self.black.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
 
         # Button Actions
         self.bold.clicked.connect(self.__bold_text)
@@ -90,6 +107,8 @@ class RTextEdit(qt.QWidget):
         self.red.clicked.connect(self.__red_text)
         self.blue.clicked.connect(self.__blue_text)
         self.green.clicked.connect(self.__green_text)
+        self.white.clicked.connect(self.__white_text)
+        self.black.clicked.connect(self.__black_text)
 
         # dd Buttons to Row
         self.hbox.addWidget(self.bold)
@@ -98,6 +117,8 @@ class RTextEdit(qt.QWidget):
         self.hbox.addWidget(self.red)
         self.hbox.addWidget(self.blue)
         self.hbox.addWidget(self.green)
+        self.hbox.addWidget(self.white)
+        self.hbox.addWidget(self.black)
         self.hbox.addStretch()
 
         # Add Buttons to layout
@@ -155,11 +176,32 @@ class RTextEdit(qt.QWidget):
         # Correct Allignment
         self.__correct_allignment()
 
+    def __black_text(self):
+        color = gui.QColor(26, 26, 26)
+        self.editor.setTextColor(
+            color if self.editor.textColor() != color else self.default_color
+        )
+
+        # Correct Allignment
+        self.__correct_allignment()
+
+    def __white_text(self):
+        color = gui.QColor(242, 242, 242)
+        self.editor.setTextColor(
+            color if self.editor.textColor() != color else self.default_color
+        )
+
+        # Correct Allignment
+        self.__correct_allignment()
+
     def __correct_allignment(self):
         self.editor.setAlignment(core.Qt.AlignLeft)
 
     def getText(self):
         return self.editor.toHtml()
+
+    def getPlainText(self):
+        return self.editor.toPlainText()
 
     def setText(self, html_text):
         self.editor.setHtml(html_text)
