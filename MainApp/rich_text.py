@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets as qt
-from PyQt5 import QtGui as gui
-from PyQt5 import QtCore as core
+from PySide2 import QtWidgets as qt
+from PySide2 import QtGui as gui
+from PySide2 import QtCore as core
 from .setting import settings
 
 
@@ -91,14 +91,14 @@ class RTextEdit(qt.QWidget):
         self.black.setFlat(True)
 
         # Remove Tab focus from Buttons
-        self.bold.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
-        self.italic.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
-        self.underline.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
-        self.red.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
-        self.blue.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
-        self.green.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
-        self.white.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
-        self.black.setFocusPolicy(core.Qt.ClickFocus | core.Qt.NoFocus)
+        self.bold.setFocusPolicy(core.Qt.NoFocus)
+        self.italic.setFocusPolicy(core.Qt.NoFocus)
+        self.underline.setFocusPolicy(core.Qt.NoFocus)
+        self.red.setFocusPolicy(core.Qt.NoFocus)
+        self.blue.setFocusPolicy(core.Qt.NoFocus)
+        self.green.setFocusPolicy(core.Qt.NoFocus)
+        self.white.setFocusPolicy(core.Qt.NoFocus)
+        self.black.setFocusPolicy(core.Qt.NoFocus)
 
         # Button Actions
         self.bold.clicked.connect(self.__bold_text)

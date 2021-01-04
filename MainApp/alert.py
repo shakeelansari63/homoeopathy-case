@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets as qt
-from PyQt5 import QtGui as gui
-from PyQt5 import QtCore as core
+from PySide2 import QtWidgets as qt
+from PySide2 import QtGui as gui
+from PySide2 import QtCore as core
 from .setting import settings
 
 

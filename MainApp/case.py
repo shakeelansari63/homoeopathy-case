@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets as qt
-from PyQt5 import QtGui as gui
-from PyQt5 import QtCore as core
+from PySide2 import QtWidgets as qt
+from PySide2 import QtGui as gui
+from PySide2 import QtCore as core
 from .db import PatientDB, CaseDB, Options
 from .alert import MsgErrBox, MsgSucBox, MsgCloseConfirm
 from .setting import settings
@@ -213,7 +213,7 @@ class Case(qt.QDialog):
         pgform.addRow(qt.QLabel('Thermals:  '), self.pg_thermal)
         # Sun Sensitivity
         self.pg_sun = RTextEdit()
-        self.pg_sun.setPlaceholderText('Sun Sensitivity')
+        self.pg_sun.setPlaceholderText('Sun')
         self.pg_sun.setTabChangesFocus(True)
         pgform.addRow(qt.QLabel('Sun Sensitivity:  '), self.pg_sun)
         # Thirst
@@ -253,7 +253,7 @@ class Case(qt.QDialog):
         pgform.addRow(qt.QLabel('Disagree:  '), self.pg_disagree)
         # Undigestable Things
         self.pg_undigestable = RTextEdit()
-        self.pg_undigestable.setPlaceholderText('Undigestable Things')
+        self.pg_undigestable.setPlaceholderText('Undigestable')
         self.pg_undigestable.setTabChangesFocus(True)
         pgform.addRow(qt.QLabel('Undigestable Things:  '),
                       self.pg_undigestable)

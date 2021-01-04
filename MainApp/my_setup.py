@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets as qt
-from PyQt5 import QtGui as gui
-from PyQt5 import QtCore as core
+from PySide2 import QtWidgets as qt
+from PySide2 import QtGui as gui
+from PySide2 import QtCore as core
 from .db import PatientDB, CaseDB, Options
 from .alert import MsgSucBox, MsgErrBox
 from .setting import settings
@@ -40,7 +40,8 @@ class Setup(qt.QDialog):
         upgrade_db.setIconSize(core.QSize(28, 28))
 
         self.mind_disp_quest = RTextEdit()
-        self.mind_disp_quest.setPlaceholderText("Questions for Mind and Disposition")
+        self.mind_disp_quest.setPlaceholderText(
+            "Questions for Mind and Disposition")
         self.mind_disp_quest.setText(self.optdb.get_option(settings["MDQ"]))
         update_mind_disp = qt.QPushButton('Update Questions')
 
