@@ -1,8 +1,8 @@
 #---------- code:utf8 --------------#
 import json
 import os
-from PySide2 import QtGui as gui
-from PySide2 import QtCore as core
+from PyQt5 import QtGui as gui
+from PyQt5 import QtCore as core
 
 app_path = os.path.dirname(__file__) + os.path.sep
 settings = json.load(open(app_path + "/resources/setting.json"))

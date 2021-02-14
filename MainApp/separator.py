@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets as qt
+from PyQt5 import QtWidgets as qt
 from .setting import settings
 
 
