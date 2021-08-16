@@ -1,5 +1,0 @@
-python3
-pyqt5
-pyinstaller
-qtpy
-qtmodern
