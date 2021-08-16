@@ -22,7 +22,3 @@ win.setLayout(vlay)
 
 win.show()
 app.run()
-
-
-# def update_format():
-#    pass
