@@ -11,6 +11,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { DrawerComponent } from './components/drawer/drawer.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { CasesComponent } from './components/cases/cases.component';
+import { HomeComponent } from './components/home/home.component';
+import { SettingComponent } from './components/setting/setting.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { CasesComponent } from './components/cases/cases.component';
     FooterComponent,
     DrawerComponent,
     PatientsComponent,
-    CasesComponent
+    CasesComponent,
+    HomeComponent,
+    SettingComponent
   ],
   imports: [
     BrowserModule,

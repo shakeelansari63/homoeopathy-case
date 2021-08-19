@@ -14,16 +14,18 @@ export class DrawerComponent implements OnInit {
 
   navigationItems: any[] = [
     {id: 1, text: 'Home', icon: 'home', path: ''},
-    {id: 2, text: 'Patients', icon: 'user', path: 'patients'},
-    {id: 3, text: 'Cases', icon: 'doc', path: 'cases'}
+    {id: 2, text: 'Patients', icon: 'group', path: 'patients'},
+    {id: 3, text: 'Cases', icon: 'doc', path: 'cases'},
+    {id: 3, text: 'Setting', icon: 'toolbox', path: 'setting'}
   ]
+
 
   ngOnInit(): void {
   }
 
   loadView(evnt: any) {
-    console.log(evnt)
     this.router.navigate([evnt.addedItems[0].path])
+    this.drawerOpen = false;
   }
 
 }

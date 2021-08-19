@@ -1,11 +1,12 @@
 <dx-drawer
+    template="template"
     [(opened)]="drawerOpen"
-    height="100%"
-    template="drawerTemplate">
-    <div *dxTemplate="let data of 'drawerTemplate'">
+    [minSize]="37"
+    [maxSize]="120"
+    revealMode="expand">
+    <div *dxTemplate="let data of 'template'" class="navigation-panel">
         <dx-list
             [items]="navigationItems"
-            [width]="200"
             selectionMode="single"
             (onSelectionChanged)="loadView($event)">
         </dx-list>

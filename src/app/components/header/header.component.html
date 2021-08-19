@@ -4,6 +4,7 @@
     <dxi-item
         location="before">
         <dx-button
+            class="dx-theme-background-color-as-text-color"
             icon="menu"
             stylingMode="text"
             (onClick)="toggleDrawer()">
@@ -14,14 +15,5 @@
     <dxi-item
         location="before">
         <div class="company-name">{{ company }}</div>
-    </dxi-item>
-
-    <!-- Settings Icon -->
-    <dxi-item
-        location="after">
-        <dx-button
-            icon="plus"
-            stylingMode="text">
-        </dx-button>
     </dxi-item>
 </dx-toolbar>
