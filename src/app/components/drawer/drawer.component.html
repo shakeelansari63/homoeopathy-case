@@ -1,0 +1,14 @@
+<dx-drawer
+    [(opened)]="drawerOpen"
+    height="100%"
+    template="drawerTemplate">
+    <div *dxTemplate="let data of 'drawerTemplate'">
+        <dx-list
+            [items]="navigationItems"
+            [width]="200"
+            selectionMode="single"
+            (onSelectionChanged)="loadView($event)">
+        </dx-list>
+    </div>
+    <div id="view"><router-outlet></router-outlet></div>
+</dx-drawer>

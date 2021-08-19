@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'homoeopathy-case';
+  companyName = 'Barqat Homoeopathy'
+  
+  isDrawerOpen: boolean = false;
+
+  toggleDrawerOpen() {
+    this.isDrawerOpen = !this.isDrawerOpen;
+  }
 }

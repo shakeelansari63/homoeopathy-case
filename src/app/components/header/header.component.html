@@ -1,0 +1,27 @@
+<dx-toolbar
+    class="header-bar dx-theme-accent-as-background-color">
+    <!-- Menu Button -->
+    <dxi-item
+        location="before">
+        <dx-button
+            icon="menu"
+            stylingMode="text"
+            (onClick)="toggleDrawer()">
+        </dx-button>
+    </dxi-item>
+
+    <!-- Company Name -->
+    <dxi-item
+        location="before">
+        <div class="company-name">{{ company }}</div>
+    </dxi-item>
+
+    <!-- Settings Icon -->
+    <dxi-item
+        location="after">
+        <dx-button
+            icon="plus"
+            stylingMode="text">
+        </dx-button>
+    </dxi-item>
+</dx-toolbar>
