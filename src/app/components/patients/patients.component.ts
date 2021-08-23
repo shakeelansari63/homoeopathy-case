@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PatientsDataService } from '../../services/patients-data.service';
+import { Patient } from '../../models/patient';
 
 @Component({
   selector: 'app-patients',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PatientsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private pat: PatientsDataService) { }
+
+  searchKey: string='';
+  newPatientFormVisible: boolean = false;
+  patients: Patient[];
 
   ngOnInit(): void {
+    this.pat.patients.subscribe(pats => {
+      this.patients = pats
+    })
   }
 
+  searchPatient() {
+    console.log(this.searchKey)
+  }
+
+  newPatient() {
+    console.log('Creating new patient')
+    this.newPatientFormVisible = true;
+  }
 }

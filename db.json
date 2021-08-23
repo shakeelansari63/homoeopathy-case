@@ -1,0 +1,31 @@
+{
+  "patients": [
+    {
+      "firstName": "Shakeel",
+      "lastName": "Ansari",
+      "age": "71",
+      "gender": "M",
+      "phone": "9698765678",
+      "address": "bbbbcjqjcbhjqb",
+      "occupation": "j",
+      "maritalStatus": "M",
+      "reference": "bj",
+      "datetm": "2021-08-22T16:56:35.774Z",
+      "id": 1
+    },
+    {
+      "firstName": "hhhibibb",
+      "lastName": "bhihiiuhii",
+      "age": "56",
+      "gender": "F",
+      "phone": "9659678900",
+      "address": "hiyinj",
+      "occupation": "nii",
+      "maritalStatus": "S",
+      "reference": "nkn",
+      "datetm": "2021-08-22T17:07:52.382Z",
+      "id": 2
+    }
+  ],
+  "cases": []
+}

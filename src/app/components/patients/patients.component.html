@@ -1,1 +1,37 @@
-<p>patients works!</p>
+<dx-toolbar>
+    <!-- Search Patient -->
+    <dxi-item
+        location="before">
+        <dx-text-box 
+            placeholder="Search Patient . . ."
+            [(value)]="searchKey"
+            (onEnterKey)="searchPatient()">
+        </dx-text-box>
+    </dxi-item>
+
+    <!-- New Patient -->
+    <dxi-item
+        location="after">
+        <dx-button
+            icon="add"
+            text="New Patient"
+            type="default"
+            (onClick)="newPatient()">
+        </dx-button>
+    </dxi-item>
+</dx-toolbar>
+
+<!-- Popup New Patient Form -->
+<dx-popup
+    [width]="500"
+    [height]="600"
+    [showTitle]="true"
+    title="New Patient"
+    [dragEnabled]="false"
+    [(visible)]="newPatientFormVisible">
+    <dx-scroll-view>
+        <app-new-patient-form></app-new-patient-form>
+    </dx-scroll-view>
+</dx-popup>
+
+{{ patients | json }}
