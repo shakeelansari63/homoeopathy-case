@@ -8,23 +8,18 @@ import { Subject, Observable } from 'rxjs';
 })
 export class PatientsDataService {
 
-  patients$: Subject<Patient[]>;
-  patients: Observable<Patient[]>;
-
   baseUrl: string = 'http://localhost:3000'
   patientsUrl: string = `${this.baseUrl}/patients`
   hdr: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json'})
 
   constructor(private http: HttpClient) {
-    this.patients$ = new Subject();
-    this.patients = this.patients$.asObservable();
-
-    this.http.get<Patient[]>(this.patientsUrl).subscribe(pats => {
-      this.patients$.next(pats)
-    })
    }
 
   newPatient(pat: Patient) {
     return this.http.post<Patient>(this.patientsUrl, pat, {headers: this.hdr})
+  }
+
+  getAllPatients() : Observable<any> {
+    return this.http.get<Patient[]>(this.patientsUrl)
   }
 }

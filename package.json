@@ -23,6 +23,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@ngrx/store": "^12.4.0",
     "devextreme": "^21.1.5",
     "devextreme-angular": "^21.1.5",
     "rxjs": "~6.6.0",

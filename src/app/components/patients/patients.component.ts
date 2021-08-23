@@ -16,7 +16,7 @@ export class PatientsComponent implements OnInit {
   patients: Patient[];
 
   ngOnInit(): void {
-    this.pat.patients.subscribe(pats => {
+    this.pat.getAllPatients().subscribe(pats => {
       this.patients = pats
     })
   }
