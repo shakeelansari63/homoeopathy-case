@@ -2,10 +2,13 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
 
 import { DxUiModule } from './modules/dx-ui.module';
 import { AppRoutingModule } from './modules/app-routing.module';
+
+import { patientReducer } from './state/patient/patient.reducers'
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -16,6 +19,7 @@ import { CasesComponent } from './components/cases/cases.component';
 import { HomeComponent } from './components/home/home.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { NewPatientFormComponent } from './components/new-patient-form/new-patient-form.component';
+import { PatientListItemComponent } from './components/patient-list-item/patient-list-item.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,8 @@ import { NewPatientFormComponent } from './components/new-patient-form/new-patie
     CasesComponent,
     HomeComponent,
     SettingComponent,
-    NewPatientFormComponent
+    NewPatientFormComponent,
+    PatientListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,8 @@ import { NewPatientFormComponent } from './components/new-patient-form/new-patie
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    DxUiModule
+    DxUiModule,
+    StoreModule.forRoot({patients: patientReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]

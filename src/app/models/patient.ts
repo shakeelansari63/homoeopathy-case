@@ -11,3 +11,8 @@ export interface Patient {
     reference: string;
     datetm?: Date;
 }
+
+export interface PatientState {
+    patientsList: Patient[];
+    newFormVisibe: boolean;
+}

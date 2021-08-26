@@ -77,9 +77,7 @@ export class NewPatientFormComponent implements OnInit {
     console.log(this.patientData)
 
     // Saeve Patient
-    this.pat.newPatient(this.patientData).subscribe((op) => {
-      console.log(op)
-    })
+    this.pat.newPatient(this.patientData)
   }
 
 }

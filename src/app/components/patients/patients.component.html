@@ -21,6 +21,9 @@
     </dxi-item>
 </dx-toolbar>
 
+<app-patient-list-item
+    *ngFor="let patient of patients" [patient]="patient"></app-patient-list-item>
+
 <!-- Popup New Patient Form -->
 <dx-popup
     [width]="500"
@@ -33,5 +36,3 @@
         <app-new-patient-form></app-new-patient-form>
     </dx-scroll-view>
 </dx-popup>
-
-{{ patients | json }}
