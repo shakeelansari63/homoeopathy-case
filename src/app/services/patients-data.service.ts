@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Patient } from '../models/patient'
+import notify from 'devextreme/ui/notify'
 import { Store } from '@ngrx/store';
 import { 
   addPatient, 
@@ -24,8 +25,11 @@ export class PatientsDataService {
   newPatient(pat: Patient) {
     this.http.post<Patient>(this.patientsUrl, pat, {headers: this.hdr}).forEach( result => {
       this.store.dispatch(hideNewPatientForm())
-    })
 
+      // Notify User for patient creating
+      notify('New Patient Created')
+    })
+    
     this.store.dispatch(addPatient({patient: pat}))
   }
 
