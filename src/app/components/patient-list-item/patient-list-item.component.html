@@ -1,1 +1,4 @@
-<div class="card">{{ patient | json }}</div>
+<div class="patient-card">
+    <div class="pat-name">{{ patient.firstName }} {{ patient.lastName }}</div>
+    <div class="pat-address">Address: {{ patient.address }}</div>
+</div>
