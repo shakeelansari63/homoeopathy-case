@@ -21,6 +21,17 @@ jobs:
       - name: Checkout Git repo
         uses: actions/checkout@v2
 
+      - name: Set Environment For App Version
+        id: custom-env-setup
+        run: |
+          content=`cat ./package.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -32,8 +43,39 @@ jobs:
       - name: Install Project Dependencies
         run: npm install
 
-      - name: Build/release Electron app
-        uses: samuelmeuli/action-electron-builder@v1
+      - name: Build Electron App
+        run: npx electron-packager .
+      
+      - name: Zip Built Files
+        uses: papeloto/action-zip@v1
+          with: 
+            files: dist/
+            dest: HomeopathyApp-${{matrix.os}}.zip
+
+      - name: Make Draft release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github_token: ${{ secrets.github_token }}
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          tag_name: v${{fromJson(steps.custom-env-setup.outputs.packageJson).version}}
+          release_name: v${{fromJson(steps.custom-env-setup.outputs.packageJson).version}}
+          draft: true
+          prerelease: false
+
+      - name: Upload Artifacts
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./HomeopathyApp-${{matrix.os}}.zip
+          asset_name: HomeopathyApp-${{matrix.os}}.zip
+          asset_content_type: application/zip
+
+      - name: Publish Release
+        uses: eregon/publish-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ steps.create_release.outputs.id }}
