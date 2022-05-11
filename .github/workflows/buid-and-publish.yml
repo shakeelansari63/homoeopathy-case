@@ -48,9 +48,9 @@ jobs:
       
       - name: Zip Built Files
         uses: papeloto/action-zip@v1
-          with: 
-            files: dist/
-            dest: HomeopathyApp-${{matrix.os}}.zip
+        with: 
+          files: dist/
+          dest: HomeopathyApp-${{matrix.os}}.zip
 
       - name: Make Draft release
         id: create_release
