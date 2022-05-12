@@ -13,7 +13,7 @@ jobs:
   create-release: 
     runs-on: ubuntu-latest
     outputs:
-      upload-url: ${{ steps.create_release.outputs.upload_url }}
+      release: ${{ steps.create_release.outputs }}
 
     steps:
       - name: Checkout Git repo
@@ -44,7 +44,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        release-output: ${{ fromJson(needs.create-release.outputs) }}
+        release: ${{ fromJson(needs.create-release.outputs.release) }}
 
     steps:
       - name: Checkout Git repo
@@ -69,6 +69,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ matrix.release-output.upload-url }}
+          upload_url: ${{ matrix.release.upload_url }}
           asset_path: dist/HomoepathyCase*
         
