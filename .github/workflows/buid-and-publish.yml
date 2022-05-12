@@ -44,6 +44,8 @@ jobs:
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: homoeopathy-case-artifacts
           path: dist/HomoepathyCase*
