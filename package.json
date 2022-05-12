@@ -17,12 +17,13 @@
       "icon": "logo.png",
       "target": [
         {"target": "nsis", "arch": ["x64"]}
+        {"target": "portable", "arch": ["x64"]}
       ]
     },
     "linux": {
       "target": [
         {"target": "AppImage", "arch": ["x64"]},
-        {"target": "tar.xz", "arch": ["x64"]}
+        {"target": "tar.gz", "arch": ["x64"]}
       ],
       "icon": "logo.png",
       "category": "MedicalSoftware"
