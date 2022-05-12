@@ -15,6 +15,7 @@ jobs:
     outputs:
       release: ${{ steps.create_release.outputs.upload_url }}
       version: ${{ steps.get-version.outputs.prop }}
+      appname: ${{ steps.get-appname.outputs.prop }}
 
     steps:
       - name: Checkout Git repo
@@ -26,6 +27,13 @@ jobs:
         with: 
           path: 'package.json'
           prop_path: 'version'
+
+      - name: Set Environment For App Name
+        id: get-appname
+        uses: notiz-dev/github-action-json-property@release
+        with: 
+          path: 'package.json'
+          prop_path: 'name'
 
       - name: Make release
         id: create_release
@@ -73,8 +81,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: dist/HomoepathyCase-${{ needs.create-release.outputs.version }}.AppImage
-          asset_name: HomoepathyCase-${{ needs.create-release.outputs.version }}.AppImage
+          asset_path: dist/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.AppImage
+          asset_name: ${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.AppImage
           asset_content_type: application/octet-stream
 
       - name: Upload Linux Generic Artifact
@@ -84,8 +92,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: dist/HomoepathyCase-${{ needs.create-release.outputs.version }}.tar.xz
-          asset_name: HomoepathyCase-${{ needs.create-release.outputs.version }}.tar.xz
+          asset_path: dist/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.tar.xz
+          asset_name: ${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.tar.xz
           asset_content_type: application/octet-stream
 
       - name: Upload MacOs Artifact
@@ -95,7 +103,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: dist/HomoepathyCase-${{ needs.create-release.outputs.version }}.dmg
-          asset_name: HomoepathyCase-${{ needs.create-release.outputs.version }}.dmg
+          asset_path: dist/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.dmg
+          asset_name: ${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.dmg
           asset_content_type: application/octet-stream
         
