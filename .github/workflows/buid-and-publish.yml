@@ -82,7 +82,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
           asset_path: dist/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.AppImage
-          asset_name: ${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.AppImage
+          asset_name: ${{ needs.create-release.outputs.appname }}-linux-${{ needs.create-release.outputs.version }}.AppImage
           asset_content_type: application/octet-stream
 
       - name: Upload Linux Generic Artifact
@@ -93,7 +93,7 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
           asset_path: dist/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.tar.gz
-          asset_name: ${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.tar.gz
+          asset_name: ${{ needs.create-release.outputs.appname }}-linux-${{ needs.create-release.outputs.version }}.tar.gz
           asset_content_type: application/octet-stream
 
       - name: Upload MacOs Artifact
@@ -104,10 +104,10 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
           asset_path: dist/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.dmg
-          asset_name: ${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.dmg
+          asset_name: ${{ needs.create-release.outputs.appname }}-macos-${{ needs.create-release.outputs.version }}.dmg
           asset_content_type: application/octet-stream
 
-      - name: Upload Windows Artifact
+      - name: Upload Windows Installer Artifact
         if: ${{ matrix.os == 'windows-latest' }}
         uses: actions/upload-release-asset@v1.0.1
         env:
@@ -115,6 +115,16 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
           asset_path: ${{ needs.create-release.outputs.appname }}-Setup-${{ needs.create-release.outputs.version }}.exe
-          asset_name: ${{ needs.create-release.outputs.appname }}-setup-${{ needs.create-release.outputs.version }}.exe
+          asset_name: ${{ needs.create-release.outputs.appname }}-windows-setup-${{ needs.create-release.outputs.version }}.exe
           asset_content_type: application/octet-stream
         
+      - name: Upload Windows Portable Artifact
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.release }}
+          asset_path: ${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.exe
+          asset_name: ${{ needs.create-release.outputs.appname }}-windows-portable-${{ needs.create-release.outputs.version }}.exe
+          asset_content_type: application/octet-stream
