@@ -114,7 +114,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: ${{ needs.create-release.outputs.appname }}-Setup-${{ needs.create-release.outputs.version }}.exe
+          asset_path: dist\\${{ needs.create-release.outputs.appname }} Setup ${{ needs.create-release.outputs.version }}.exe
           asset_name: ${{ needs.create-release.outputs.appname }}-windows-setup-${{ needs.create-release.outputs.version }}.exe
           asset_content_type: application/octet-stream
         
@@ -125,6 +125,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: ${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.exe
+          asset_path: dist\\${{ needs.create-release.outputs.appname }} ${{ needs.create-release.outputs.version }}.exe
           asset_name: ${{ needs.create-release.outputs.appname }}-windows-portable-${{ needs.create-release.outputs.version }}.exe
           asset_content_type: application/octet-stream
