@@ -23,6 +23,7 @@ jobs:
 
       - name: Set Environment For App Version
         id: get-version
+        uses: notiz-dev/github-action-json-property@release
         with: 
           path: 'package.json'
           prop_path: 'version'
