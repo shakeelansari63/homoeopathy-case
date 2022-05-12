@@ -10,12 +10,10 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+  create-release: 
+    runs-on: ubuntu-latest
+    outputs:
+      upload-url: ${{ steps.create_release.outputs.upload_url }}
 
     steps:
       - name: Checkout Git repo
@@ -27,6 +25,30 @@ jobs:
         with: 
           path: 'package.json'
           prop_path: 'version'
+
+      - name: Make release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get-version.outputs.prop }}
+          release_name: v${{ steps.get-version.outputs.prop }}
+          draft: false
+          prerelease: false
+
+  build:
+    needs: create-release
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        upload-url: ${{ needs.create-release.outputs.upload-url }}
+
+    steps:
+      - name: Checkout Git repo
+        uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -42,10 +64,11 @@ jobs:
       - name: Build and Package
         run: npm run app:dist
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload Release Artifacts
+        uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: homoeopathy-case-artifacts
-          path: dist/HomoepathyCase*
+          upload_url: ${{ matrix.upload-url }}
+          asset_path: dist/HomoepathyCase*
+        
