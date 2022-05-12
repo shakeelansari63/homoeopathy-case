@@ -15,7 +15,7 @@ const createWindow =  () => {
 
     mainWindow.loadURL(
     url.format({
-        pathname: path.join(__dirname, `/dist/homoeopathy-case/index.html`),
+        pathname: path.join(__dirname, `/HomoepathyCase/index.html`),
         protocol: "file:",
         slashes: true
     })
