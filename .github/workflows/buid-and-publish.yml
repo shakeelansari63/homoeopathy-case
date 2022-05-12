@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.get-version.outputs.prop }}
 
     steps:
       - name: Checkout Git repo
@@ -65,11 +66,33 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Release Artifacts
+      - name: Upload Linux AppImage Artifacts
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: dist/HomoepathyCase*
+          asset_path: dist/HomoepathyCase-${{ needs.create-release.outputs.version }}.AppImage
+          asset_name: HomoepathyCase-${{ needs.create-release.outputs.version }}.AppImage
+
+      - name: Upload Linux Generic Artifacts
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.release }}
+          asset_path: dist/HomoepathyCase-${{ needs.create-release.outputs.version }}.tar.xz
+          asset_name: HomoepathyCase-${{ needs.create-release.outputs.version }}.tar.xz
+
+      - name: Upload Linux Generic Artifacts
+        if: ${{ matrix.os == 'macos-latest' }}
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.release }}
+          asset_path: dist/HomoepathyCase-${{ needs.create-release.outputs.version }}.dmg
+          asset_name: HomoepathyCase-${{ needs.create-release.outputs.version }}.dmg
         
