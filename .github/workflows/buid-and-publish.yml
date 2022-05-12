@@ -68,6 +68,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ need.create-release.outputs.release }}
+          upload_url: ${{ needs.create-release.outputs.release }}
           asset_path: dist/HomoepathyCase*
         
