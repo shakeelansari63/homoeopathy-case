@@ -21,7 +21,7 @@
     "mac",
     "linux"
   ],
-  "main": "app/main.js",
+  "main": "app.js",
   "build": {
     "appId": "com.freak.homoeopathyapp",
     "mac": {
