@@ -1,58 +1,44 @@
 {
-  "appId": "com.freak.homoeopathyapp",
-  "asar": true,
+  "asar": false,
   "directories": {
-    "output": "dist/"
+    "output": "release/"
   },
   "files": [
-    "app.js",
-    "HomoepathyCase/"
+    "**/*",
+    "!**/*.ts",
+    "!*.map",
+    "!package.json",
+    "!package-lock.json"
   ],
-  "mac": {
-    "icon": "HomoepathyCase/assets/logo.png",
-    "category": "MedicalSoftware",
+  "extraResources": [
+    {
+      "from": "dist",
+      "to": "app",
+      "filter": [
+        "**/*"
+      ]
+    }
+  ],
+  "win": {
+    "icon": "dist/assets/icons/logo.png",
     "target": [
-      {
-        "target": "dmg",
-        "arch": [
-          "x64"
-        ]
-      }
+      "portable",
+      "nsis"
     ]
   },
-  "win": {
-    "icon": "HomoepathyCase/assets/logo.png",
+  "mac": {
+    "icon": "dist/assets/icons/logo.png",
+    "category": "MedicalSoftware",
     "target": [
-      {
-        "target": "nsis",
-        "arch": [
-          "x64"
-        ]
-      },
-      {
-        "target": "portable",
-        "arch": [
-          "x64"
-        ]
-      }
+      "dmg"
     ]
   },
   "linux": {
+    "icon": "dist/assets/icons/logo.png",
+    "category": "MedicalSoftware",
     "target": [
-      {
-        "target": "AppImage",
-        "arch": [
-          "x64"
-        ]
-      },
-      {
-        "target": "tar.gz",
-        "arch": [
-          "x64"
-        ]
-      }
-    ],
-    "icon": "HomoepathyCase/assets/logo.png",
-    "category": "MedicalSoftware"
+      "AppImage",
+      "tar.gz"
+    ]
   }
 }

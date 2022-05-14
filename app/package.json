@@ -1,0 +1,13 @@
+{
+  "name": "homoeopathy-case",
+  "version": "0.0.1",
+  "description": "App for Homoeopathy Cases",
+  "homepage": "https://github.com/shakeelansari63",
+  "author": {
+    "name": "Shakeel Ansari",
+    "email": "shakeel.ansari@gmail.com"
+  },
+  "main": "main.js",
+  "private": true,
+  "dependencies": {}
+}

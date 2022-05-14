@@ -25,7 +25,7 @@ jobs:
         id: get-version
         uses: notiz-dev/github-action-json-property@release
         with: 
-          path: 'package.json'
+          path: 'app/package.json'
           prop_path: 'version'
 
       - name: Set Environment For App Name
@@ -70,9 +70,7 @@ jobs:
         run: npm install
 
       - name: Build and Package
-        run: npm run app:dist
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run electron:build
 
       - name: Upload Linux AppImage Artifact
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -81,7 +79,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: dist/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.AppImage
+          asset_path: release/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.AppImage
           asset_name: ${{ needs.create-release.outputs.appname }}-linux-${{ needs.create-release.outputs.version }}.AppImage
           asset_content_type: application/octet-stream
 
@@ -92,7 +90,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: dist/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.tar.gz
+          asset_path: release/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.tar.gz
           asset_name: ${{ needs.create-release.outputs.appname }}-linux-${{ needs.create-release.outputs.version }}.tar.gz
           asset_content_type: application/octet-stream
 
@@ -103,7 +101,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: dist/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.dmg
+          asset_path: release/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.dmg
           asset_name: ${{ needs.create-release.outputs.appname }}-macos-${{ needs.create-release.outputs.version }}.dmg
           asset_content_type: application/octet-stream
 
@@ -114,7 +112,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: dist\\${{ needs.create-release.outputs.appname }} Setup ${{ needs.create-release.outputs.version }}.exe
+          asset_path: release\\${{ needs.create-release.outputs.appname }} Setup ${{ needs.create-release.outputs.version }}.exe
           asset_name: ${{ needs.create-release.outputs.appname }}-windows-setup-${{ needs.create-release.outputs.version }}.exe
           asset_content_type: application/octet-stream
         
@@ -125,6 +123,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: dist\\${{ needs.create-release.outputs.appname }} ${{ needs.create-release.outputs.version }}.exe
+          asset_path: release\\${{ needs.create-release.outputs.appname }} ${{ needs.create-release.outputs.version }}.exe
           asset_name: ${{ needs.create-release.outputs.appname }}-windows-portable-${{ needs.create-release.outputs.version }}.exe
           asset_content_type: application/octet-stream
