@@ -5,7 +5,9 @@ import * as url from 'url';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
-  serve = args.some(val => val === '--serve');
+  serve = args.some(val => val === '--serve'),
+  debug = args.some(val => val === '--debug');
+
 
 function createWindow(): BrowserWindow {
 
@@ -27,18 +29,28 @@ function createWindow(): BrowserWindow {
   });
 
   if (serve) {
-    const debug = require('electron-debug');
-    debug();
+    const electronDebug = require('electron-debug');
+    electronDebug();
 
     require('electron-reloader')(module);
     win.loadURL('http://localhost:4200');
   } else {
-    // Path when running electron executable
-    let pathIndex = './index.html';
 
-    if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
-       // Path when running electron in local folder
+    let pathIndex: string;
+
+    if (debug) {
+      const electronDebug = require('electron-debug');
+      electronDebug();
+
+      // Path when running electron executable
       pathIndex = '../dist/index.html';
+    } else {
+      pathIndex = './index.html';
+
+      if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
+        // Path when running electron in local folder
+        pathIndex = '../dist/index.html';
+      }
     }
 
     win.loadURL(url.format({
@@ -64,7 +76,7 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-  app.on('ready', () => setTimeout(createWindow, 400));
+  app.on('ready', () => setTimeout(createWindow, 100));
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {

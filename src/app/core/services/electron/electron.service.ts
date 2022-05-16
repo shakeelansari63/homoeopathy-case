@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { ipcRenderer, webFrame } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ElectronService {
   webFrame: typeof webFrame;
   childProcess: typeof childProcess;
   fs: typeof fs;
+  path: typeof path;
 
   constructor() {
     // Conditional imports
@@ -23,6 +25,7 @@ export class ElectronService {
 
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
+      this.path = window.require('path');
 
       // Notes :
       // * A NodeJS's dependency imported with 'window.require' MUST BE present in `dependencies` of both `app/package.json`
