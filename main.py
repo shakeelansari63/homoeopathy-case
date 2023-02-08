@@ -1,11 +1,5 @@
 import flet as ft
-
-def main(page: ft.Page):
-    text = ft.Text("Hello World")
-
-    page.controls.append(text)
-
-    page.update()
+from app.main_page import MainPage
 
 if __name__ == "__main__":
-    ft.app(target = main)
+    ft.app(target=MainPage)
