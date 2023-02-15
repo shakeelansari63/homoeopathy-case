@@ -4,125 +4,107 @@
 name: Build Flet App and Deploy it
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
 
 jobs:
-  create-release: 
-    runs-on: ubuntu-latest
-    outputs:
-      release: ${{ steps.create_release.outputs.upload_url }}
-      version: ${{ steps.get-version.outputs.prop }}
-      appname: ${{ steps.get-appname.outputs.prop }}
+    Create_Release:
+        runs-on: ubuntu-latest
+        outputs:
+            release: ${{ steps.create_release.outputs.upload_url }}
+            version: ${{ steps.get-version.outputs.prop }}
 
-    steps:
-      - name: Checkout Git repo
-        uses: actions/checkout@v2
+        steps:
+            - name: Checkout Git repo
+              uses: actions/checkout@v2
 
-      - name: Set Environment For App Version
-        id: get-version
-        uses: notiz-dev/github-action-json-property@release
-        with: 
-          path: 'app/package.json'
-          prop_path: 'version'
+            - name: Set Environment For App Version
+              id: get-version
+              run: echo "::set-output name=prop::$(date +'%Y%m%d.%H.%M.%S')"
 
-      - name: Set Environment For App Name
-        id: get-appname
-        uses: notiz-dev/github-action-json-property@release
-        with: 
-          path: 'package.json'
-          prop_path: 'name'
+            - name: Make release
+              id: create_release
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag_name: v${{ steps.get-version.outputs.prop }}
+                  release_name: v${{ steps.get-version.outputs.prop }}
+                  draft: false
+                  prerelease: false
 
-      - name: Make release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.get-version.outputs.prop }}
-          release_name: v${{ steps.get-version.outputs.prop }}
-          draft: false
-          prerelease: false
+    build:
+        needs: create-release
+        runs-on: ${{ matrix.os }}
 
-  build:
-    needs: create-release
-    runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [macos-latest, ubuntu-latest, windows-latest]
 
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        steps:
+            - name: Checkout Git repo
+              uses: actions/checkout@v2
 
-    steps:
-      - name: Checkout Git repo
-        uses: actions/checkout@v2
+            - name: Set up Python 3.9
+              uses: actions/setup-python@v4
+              with:
+                  python-version: 3.9
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
+            - name: Install Dependencies
+              run: pip install -r requirements.txt
 
-      - name: Install Angular CLI
-        run: npm install -g @angular/cli
+            - name: Flet Package
+              run: flet pack main.py --name Homoeopathy-Case
 
-      - name: Install Project Dependencies
-        run: npm install
+            - name: Zip Final Windows Package
+              if: ${{ matrix.os == 'windows-latest' }}
+              uses: montudor/action-zip@v1
+              with:
+                  args: zip -qq -r Homoeopathy-Case-Windows.zip dist
 
-      - name: Build and Package
-        run: npm run electron:build
+            - name: Zip Final Linux Package
+              if: ${{ matrix.os == 'ubuntu-latest' }}
+              uses: montudor/action-zip@v1
+              with:
+                  args: zip -qq -r Homoeopathy-Case-Linux.zip dist
 
-      - name: Upload Linux AppImage Artifact
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: release/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.AppImage
-          asset_name: ${{ needs.create-release.outputs.appname }}-linux-${{ needs.create-release.outputs.version }}.AppImage
-          asset_content_type: application/octet-stream
+            - name: Zip Final MacOs Package
+              if: ${{ matrix.os == 'macos-latest' }}
+              uses: montudor/action-zip@v1
+              with:
+                  args: zip -qq -r Homoeopathy-Case-MacOs.zip dist
 
-      - name: Upload Linux Generic Artifact
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: release/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.tar.gz
-          asset_name: ${{ needs.create-release.outputs.appname }}-linux-${{ needs.create-release.outputs.version }}.tar.gz
-          asset_content_type: application/octet-stream
+            - name: Upload Linux Artifact
+              if: ${{ matrix.os == 'ubuntu-latest' }}
+              uses: actions/upload-release-asset@v1.0.1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ needs.create-release.outputs.release }}
+                  asset_path: Homoeopathy-Case-Linux.zip
+                  asset_name: Homoeopathy-Case-Linux.zip
+                  asset_content_type: application/octet-stream
 
-      - name: Upload MacOs Artifact
-        if: ${{ matrix.os == 'macos-latest' }}
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: release/${{ needs.create-release.outputs.appname }}-${{ needs.create-release.outputs.version }}.dmg
-          asset_name: ${{ needs.create-release.outputs.appname }}-macos-${{ needs.create-release.outputs.version }}.dmg
-          asset_content_type: application/octet-stream
+            - name: Upload Windows Artifact
+              if: ${{ matrix.os == 'windows-latest' }}
+              uses: actions/upload-release-asset@v1.0.1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ needs.create-release.outputs.release }}
+                  asset_path: Homoeopathy-Case-Windows.zip
+                  asset_name: Homoeopathy-Case-Windows.zip
+                  asset_content_type: application/octet-stream
 
-      - name: Upload Windows Installer Artifact
-        if: ${{ matrix.os == 'windows-latest' }}
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: release\\${{ needs.create-release.outputs.appname }} Setup ${{ needs.create-release.outputs.version }}.exe
-          asset_name: ${{ needs.create-release.outputs.appname }}-windows-setup-${{ needs.create-release.outputs.version }}.exe
-          asset_content_type: application/octet-stream
-        
-      - name: Upload Windows Portable Artifact
-        if: ${{ matrix.os == 'windows-latest' }}
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.release }}
-          asset_path: release\\${{ needs.create-release.outputs.appname }} ${{ needs.create-release.outputs.version }}.exe
-          asset_name: ${{ needs.create-release.outputs.appname }}-windows-portable-${{ needs.create-release.outputs.version }}.exe
-          asset_content_type: application/octet-stream
+            - name: Upload MacOs Artifact
+              if: ${{ matrix.os == 'macos-latest' }}
+              uses: actions/upload-release-asset@v1.0.1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ needs.create-release.outputs.release }}
+                  asset_path: Homoeopathy-Case-MacOs.zip
+                  asset_name: Homoeopathy-Case-MacOs.zip
+                  asset_content_type: application/octet-stream
