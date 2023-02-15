@@ -10,7 +10,7 @@ on:
         branches: [main]
 
 jobs:
-    Create_Release:
+    create-release:
         runs-on: ubuntu-latest
         outputs:
             release: ${{ steps.create_release.outputs.upload_url }}
