@@ -60,21 +60,27 @@ jobs:
 
             - name: Zip Final Windows Package
               if: ${{ matrix.os == 'windows-latest' }}
-              uses: montudor/action-zip@v1
+              uses: thedoctor0/zip-release@0.7.1
               with:
-                  args: zip -qq -r Homoeopathy-Case-Windows.zip dist
+                  type: "zip"
+                  filename: "Homoeopathy-Case-Windows.zip"
+                  directory: "dist"
 
             - name: Zip Final Linux Package
               if: ${{ matrix.os == 'ubuntu-latest' }}
-              uses: montudor/action-zip@v1
+              uses: thedoctor0/zip-release@0.7.1
               with:
-                  args: zip -qq -r Homoeopathy-Case-Linux.zip dist
+                  type: "zip"
+                  filename: "Homoeopathy-Case-Linux.zip"
+                  directory: "dist"
 
             - name: Zip Final MacOs Package
               if: ${{ matrix.os == 'macos-latest' }}
-              uses: montudor/action-zip@v1
+              uses: thedoctor0/zip-release@0.7.1
               with:
-                  args: zip -qq -r Homoeopathy-Case-MacOs.zip dist
+                  type: "zip"
+                  filename: "Homoeopathy-Case-MacOs.zip"
+                  directory: "dist"
 
             - name: Upload Linux Artifact
               if: ${{ matrix.os == 'ubuntu-latest' }}
