@@ -89,7 +89,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ needs.create-release.outputs.release }}
-                  asset_path: Homoeopathy-Case-Linux.zip
+                  asset_path: dist/Homoeopathy-Case-Linux.zip
                   asset_name: Homoeopathy-Case-Linux.zip
                   asset_content_type: application/octet-stream
 
@@ -100,7 +100,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ needs.create-release.outputs.release }}
-                  asset_path: Homoeopathy-Case-Windows.zip
+                  asset_path: dist/Homoeopathy-Case-Windows.zip
                   asset_name: Homoeopathy-Case-Windows.zip
                   asset_content_type: application/octet-stream
 
@@ -111,6 +111,6 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   upload_url: ${{ needs.create-release.outputs.release }}
-                  asset_path: Homoeopathy-Case-MacOs.zip
+                  asset_path: dist/Homoeopathy-Case-MacOs.zip
                   asset_name: Homoeopathy-Case-MacOs.zip
                   asset_content_type: application/octet-stream
