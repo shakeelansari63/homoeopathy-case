@@ -59,7 +59,7 @@ jobs:
               run: pip install -r requirements.txt
 
             - name: Flet Package
-              run: flet pack main.py --name Homoeopathy-Case --icon logo.png
+              run: flet pack app.py --name Homoeopathy-Case --icon logo.png
 
             - name: Zip Final Windows Package
               if: ${{ matrix.os == 'windows-latest' }}
